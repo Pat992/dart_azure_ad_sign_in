@@ -8,14 +8,14 @@ abstract class HttpServerDatasource {
 
 class HttpServerDatasourceImpl implements HttpServerDatasource {
   final int port;
-  final String successResponse;
-  final String errorResponse;
+  final String serverSuccessResponse;
+  final String serverErrorResponse;
   HttpServer? httpServer;
 
   HttpServerDatasourceImpl({
     required this.port,
-    required this.successResponse,
-    required this.errorResponse,
+    required this.serverSuccessResponse,
+    required this.serverErrorResponse,
   });
 
   @override
