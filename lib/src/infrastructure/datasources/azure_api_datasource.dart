@@ -13,7 +13,7 @@ class AzureApiDatasourceImpl implements AzureApiDatasource {
   final String clientId;
   final String grantType;
   final String oauthUri;
-  final HttpClient client = HttpClient();
+  late HttpClient client;
 
   AzureApiDatasourceImpl({
     required this.port,
@@ -31,6 +31,8 @@ class AzureApiDatasourceImpl implements AzureApiDatasource {
       'client_id': clientId
     };
 
+    client = HttpClient();
+
     final formBytes = _createFormData(formMap: formMap);
 
     final request = await _createRequest(formBytes: formBytes);
@@ -39,10 +41,11 @@ class AzureApiDatasourceImpl implements AzureApiDatasource {
 
     client.close();
 
-    await _readResponse(response);
+    final stringRes = await _readResponse(response);
 
-    // Todo: check string
-    return {};
+    final stringMap = json.decode(stringRes);
+
+    return stringMap;
   }
 
   @override
@@ -53,6 +56,8 @@ class AzureApiDatasourceImpl implements AzureApiDatasource {
       'refresh_token': refreshToken,
     };
 
+    client = HttpClient();
+
     final formBytes = _createFormData(formMap: formMap);
 
     final request = await _createRequest(formBytes: formBytes);
@@ -61,10 +66,11 @@ class AzureApiDatasourceImpl implements AzureApiDatasource {
 
     client.close();
 
-    await _readResponse(response);
+    final stringRes = await _readResponse(response);
 
-    // Todo: check string
-    return {};
+    final stringMap = json.decode(stringRes);
+
+    return stringMap;
   }
 
   List<int> _createFormData({required Map<String, dynamic> formMap}) {

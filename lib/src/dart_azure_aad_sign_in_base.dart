@@ -22,14 +22,14 @@ class AzureSignIn {
 
   AzureSignIn({
     this.clientId = '04b07795-8ddb-461a-bbee-02f9e1bf7b46',
-    this.port = 8080,
-    this.serverTimeoutDuration = const Duration(minutes: 1),
+    this.port = 59133,
+    this.serverTimeoutDuration = const Duration(minutes: 5),
     this.serverSuccessResponse =
         'SignIn successful. This window can now be closed.',
     this.serverErrorResponse = 'SignIn failed. Close this window and try again',
     this.grantType = 'authorization_code',
   }) : authUri =
-            'https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize?client_id=$clientId&response_type=code&redirect_uri=http://localhost:$port&scope=https%3A%2F%2Fmanagement.core.windows.net%2F%2F.default+offline_access+openid+profile&response_mode=fragment' {
+            'https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize?client_id=$clientId&response_type=code&redirect_uri=http://localhost:$port&scope=https://management.core.windows.net//.default+offline_access+openid+profile&response_mode=form_post' {
     _initAzureApiDatasource();
     _initHttpServerDatasource();
     _initSignInRepository();

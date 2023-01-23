@@ -33,13 +33,13 @@ class SignInRepositoryImpl implements SignInRepository {
   @override
   Future<Token> signIn() async {
     TokenModel token;
-    final future = Future.delayed(serverTimeoutDuration);
-    final timeoutStream = future.asStream();
-
-    final timeoutStreamSubscription = timeoutStream.listen((event) {
-      cancelSignIn();
-      token = TokenModel.fromMap({});
-    });
+    // final future = Future.delayed(serverTimeoutDuration);
+    // final timeoutStream = future.asStream();
+    //
+    // final timeoutStreamSubscription = timeoutStream.listen((event) {
+    //   cancelSignIn();
+    //   token = TokenModel.fromMap({});
+    // });
 
     await httpServerDatasource.startServer();
 
@@ -47,11 +47,11 @@ class SignInRepositoryImpl implements SignInRepository {
 
     final tokenString = await azureApiDatasource.getToken(code: code);
 
-    httpServerDatasource.stopServer();
-
-    timeoutStreamSubscription.cancel();
-
     token = TokenModel.fromMap(tokenString);
+
+    //timeoutStreamSubscription.cancel();
+
+    await httpServerDatasource.stopServer();
 
     return token;
   }

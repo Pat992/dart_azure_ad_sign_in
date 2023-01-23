@@ -41,21 +41,21 @@ class TokenModel extends Token {
 
   factory TokenModel.fromMap(Map<String, dynamic> map) {
     return TokenModel(
-      tokenType: map['tokenType'] as String,
-      scope: map['scope'] as String,
-      expiresIn: map['expiresIn'] as String,
-      extExpiresIn: map['extExpiresIn'] as String,
-      expiresOn: map['expiresOn'] as String,
-      notBefore: map['notBefore'] as String,
-      resource: map['resource'] as String,
-      accessToken: map['accessToken'] as String,
-      refreshToken: map['refreshToken'] as String,
-      idToken: map['idToken'] as String,
-      foci: map['foci'] as String,
-      status: map['status'] as int,
-      error: map['error'] as String,
-      errorDescription: map['errorDescription'] as String,
-      errorCodes: map['errorCodes'] as List<String>,
+      tokenType: map['token_type'] ?? '',
+      scope: map['scope'] ?? '',
+      expiresIn: map['expires_in'] ?? '',
+      extExpiresIn: map['ext_expires_in'] ?? '',
+      expiresOn: map['expires_on'] ?? '',
+      notBefore: map['not_before'] ?? '',
+      resource: map['resource'] ?? '',
+      accessToken: map['access_token'] ?? '',
+      refreshToken: map['refresh_token'] ?? '',
+      idToken: map['id_token'] ?? '',
+      foci: map['foci'] ?? '',
+      status: map['status'] ?? 0,
+      error: map['error'] ?? '',
+      errorDescription: map['errorDescription'] ?? '',
+      errorCodes: map['errorCodes'] ?? [],
     );
   }
 
