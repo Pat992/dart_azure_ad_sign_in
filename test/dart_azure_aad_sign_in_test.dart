@@ -1,16 +1,3 @@
-import 'package:dart_azure_aad_sign_in/dart_azure_aad_sign_in.dart';
 import 'package:test/test.dart';
 
-void main() {
-  group('A group of tests', () {
-    final awesome = Awesome();
-
-    setUp(() {
-      // Additional setup goes here.
-    });
-
-    test('First Test', () {
-      expect(awesome.isAwesome, isTrue);
-    });
-  });
-}
+void main() {}

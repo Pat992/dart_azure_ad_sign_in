@@ -1,19 +1,19 @@
 class Token {
-  String tokenType;
-  String scope;
-  String expiresIn;
-  String extExpiresIn;
-  String expiresOn;
-  String notBefore;
-  String resource;
-  String accessToken;
-  String refreshToken;
-  String idToken;
-  String foci;
-  int status;
-  String error;
-  String errorDescription;
-  List<String> errorCodes;
+  final String tokenType;
+  final String scope;
+  final String expiresIn;
+  final String extExpiresIn;
+  final String expiresOn;
+  final String notBefore;
+  final String resource;
+  final String accessToken;
+  final String refreshToken;
+  final String idToken;
+  final String foci;
+  final int status;
+  final String error;
+  final String errorDescription;
+  final List<String> errorCodes;
 
   Token({
     required this.tokenType,
