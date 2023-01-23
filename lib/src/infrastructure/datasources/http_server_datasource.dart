@@ -1,23 +1,44 @@
+import 'dart:io';
+
 abstract class HttpServerDatasource {
-  void startServer();
+  Future<void> startServer();
   void stopServer();
-  String listenForRequest();
+  Future<String> listenForRequest();
 }
 
 class HttpServerDatasourceImpl implements HttpServerDatasource {
+  final int port;
+  final String successResponse;
+  final String errorResponse;
+  HttpServer? httpServer;
+
+  HttpServerDatasourceImpl({
+    required this.port,
+    required this.successResponse,
+    required this.errorResponse,
+  });
+
   @override
-  String listenForRequest() {
-    // TODO: implement listenForRequest
-    throw UnimplementedError();
+  Future<String> listenForRequest() async {
+    String code = '';
+    await httpServer?.forEach((request) {
+      // Todo: Error handling
+      code = request.uri.queryParameters['code']!;
+    });
+
+    return code;
   }
 
   @override
-  void startServer() {
-    // TODO: implement startServer
+  Future<void> startServer() async {
+    httpServer ??= await HttpServer.bind('localhost', port);
   }
 
   @override
   void stopServer() {
-    // TODO: implement stopServer
+    if (httpServer != null) {
+      httpServer?.close();
+      httpServer = null;
+    }
   }
 }
