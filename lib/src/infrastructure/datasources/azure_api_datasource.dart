@@ -41,11 +41,15 @@ class AzureApiDatasourceImpl implements AzureApiDatasource {
 
     client.close();
 
-    final stringRes = await readResponse(response: response);
+    if (response.statusCode != 404) {
+      final stringRes = await readResponse(response: response);
 
-    final stringMap = json.decode(stringRes);
+      final stringMap = json.decode(stringRes);
 
-    return stringMap;
+      return stringMap;
+    } else {
+      return {};
+    }
   }
 
   @override
@@ -66,11 +70,15 @@ class AzureApiDatasourceImpl implements AzureApiDatasource {
 
     client.close();
 
-    final stringRes = await readResponse(response: response);
+    if (response.statusCode != 404) {
+      final stringRes = await readResponse(response: response);
 
-    final stringMap = json.decode(stringRes);
+      final stringMap = json.decode(stringRes);
 
-    return stringMap;
+      return stringMap;
+    } else {
+      return {};
+    }
   }
 
   List<int> createFormData({required Map<String, dynamic> formMap}) {
