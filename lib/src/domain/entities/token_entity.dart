@@ -14,6 +14,7 @@ class Token {
   final String error;
   final String errorDescription;
   final List<String> errorCodes;
+  final String errorUri;
 
   Token({
     required this.tokenType,
@@ -31,5 +32,6 @@ class Token {
     required this.error,
     required this.errorDescription,
     required this.errorCodes,
+    required this.errorUri,
   });
 }

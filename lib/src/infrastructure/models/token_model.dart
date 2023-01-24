@@ -17,25 +17,27 @@ class TokenModel extends Token {
     required super.error,
     required super.errorDescription,
     required super.errorCodes,
+    required super.errorUri,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'tokenType': tokenType,
+      'token_type': tokenType,
       'scope': scope,
-      'expiresIn': expiresIn,
-      'extExpiresIn': extExpiresIn,
-      'expiresOn': expiresOn,
-      'notBefore': notBefore,
+      'expires_in': expiresIn,
+      'ext_expires_in': extExpiresIn,
+      'expires_on': expiresOn,
+      'not_before': notBefore,
       'resource': resource,
-      'accessToken': accessToken,
-      'refreshToken': refreshToken,
-      'idToken': idToken,
+      'access_token': accessToken,
+      'refresh_token': refreshToken,
+      'id_token': idToken,
       'foci': foci,
       'status': status,
       'error': error,
-      'errorDescription': errorDescription,
-      'errorCodes': errorCodes,
+      'error_description': errorDescription,
+      'error_codes': errorCodes,
+      'error_uri': errorUri,
     };
   }
 
@@ -54,8 +56,9 @@ class TokenModel extends Token {
       foci: map['foci'] ?? '',
       status: map['status'] ?? 0,
       error: map['error'] ?? '',
-      errorDescription: map['errorDescription'] ?? '',
-      errorCodes: map['errorCodes'] ?? [],
+      errorDescription: map['error_description'] ?? '',
+      errorCodes: map['error_codes'] ?? [],
+      errorUri: map['error_uri'] ?? '',
     );
   }
 
@@ -75,6 +78,7 @@ class TokenModel extends Token {
     String? error,
     String? errorDescription,
     List<String>? errorCodes,
+    String? errorUri,
   }) {
     return TokenModel(
       tokenType: tokenType ?? this.tokenType,
@@ -92,6 +96,7 @@ class TokenModel extends Token {
       error: error ?? this.error,
       errorDescription: errorDescription ?? this.errorDescription,
       errorCodes: errorCodes ?? this.errorCodes,
+      errorUri: errorUri ?? this.errorUri,
     );
   }
 }
