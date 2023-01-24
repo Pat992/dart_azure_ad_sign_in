@@ -1,0 +1,13 @@
+{
+  "token_type": "Bearer",
+  "scope": "user_impersonation",
+  "expires_in": "5084",
+  "ext_expires_in": "5084",
+  "expires_on": "1674580651",
+  "not_before": "1674575266",
+  "resource": "https://management.core.windows.net/",
+  "access_token": "58941a59-fc3d-45cb-a93a-d04ec5a04097",
+  "refresh_token": "f6b69ee5-b13c-4b38-b946-808a61e11eb3",
+  "id_token": "92ab37e6-be6c-4c40-b3f1-38b50243c4bd",
+  "foci": "1"
+}

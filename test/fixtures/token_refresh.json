@@ -1,0 +1,12 @@
+{
+    "token_type": "Bearer",
+    "scope": "user_impersonation",
+    "expires_in": "5084",
+    "ext_expires_in": "5084",
+    "expires_on": "1674580651",
+    "not_before": "1674575266",
+    "resource": "https://management.core.windows.net/",
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+    "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlJlZnJlc2ggdG9rZW4iLCJpYXQiOjE1MTYyMzkwMjJ9.cQkCwQMKS_7f7OnYGiSuhXzg3nAugUvPNfYoquPoB5k",
+    "foci": "1"
+}

@@ -13,7 +13,7 @@ class Token {
   final int status;
   final String error;
   final String errorDescription;
-  final List<String> errorCodes;
+  final List<dynamic> errorCodes;
   final String errorUri;
 
   Token({

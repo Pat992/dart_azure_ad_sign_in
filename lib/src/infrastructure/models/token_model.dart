@@ -77,7 +77,7 @@ class TokenModel extends Token {
     int? status,
     String? error,
     String? errorDescription,
-    List<String>? errorCodes,
+    List<int>? errorCodes,
     String? errorUri,
   }) {
     return TokenModel(
