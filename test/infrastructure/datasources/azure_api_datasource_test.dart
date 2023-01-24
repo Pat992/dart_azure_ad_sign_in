@@ -83,7 +83,11 @@ void main() {
 
     test('Returns empty map if uri is wrong', () async {
       // arrange
-      final tokenEmpty = json.decode('{}');
+      final tokenEmpty = {
+        'error': 'not_found',
+        'error_description': '404 not found',
+      };
+
       azureApiDatasource = AzureApiDatasourceImpl(
         port: 8080,
         clientId: '1234567890',
@@ -130,7 +134,11 @@ void main() {
 
     test('Returns empty map if uri is wrong', () async {
       // arrange
-      final tokenEmpty = json.decode('{}');
+      final tokenEmpty = {
+        'error': 'not_found',
+        'error_description': '404 not found',
+      };
+
       azureApiDatasource = AzureApiDatasourceImpl(
         port: 8080,
         clientId: '1234567890',

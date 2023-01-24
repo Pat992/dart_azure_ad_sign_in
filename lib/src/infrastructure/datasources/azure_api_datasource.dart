@@ -48,7 +48,10 @@ class AzureApiDatasourceImpl implements AzureApiDatasource {
 
       return stringMap;
     } else {
-      return {};
+      return {
+        'error': 'not_found',
+        'error_description': '404 not found',
+      };
     }
   }
 
@@ -77,7 +80,10 @@ class AzureApiDatasourceImpl implements AzureApiDatasource {
 
       return stringMap;
     } else {
-      return {};
+      return {
+        'error': 'not_found',
+        'error_description': '404 not found',
+      };
     }
   }
 
