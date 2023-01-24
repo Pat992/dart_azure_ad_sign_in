@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:dart_azure_aad_sign_in/src/domain/entities/token_entity.dart';
-import 'package:dart_azure_aad_sign_in/src/domain/repositories/sign_in_repository.dart';
-import 'package:dart_azure_aad_sign_in/src/infrastructure/datasources/azure_api_datasource.dart';
-import 'package:dart_azure_aad_sign_in/src/infrastructure/datasources/http_server_datasource.dart';
-import 'package:dart_azure_aad_sign_in/src/infrastructure/models/token_model.dart';
+import 'package:dart_azure_ad_sign_in/src/domain/entities/token_entity.dart';
+import 'package:dart_azure_ad_sign_in/src/domain/repositories/sign_in_repository.dart';
+import 'package:dart_azure_ad_sign_in/src/infrastructure/datasources/azure_api_datasource.dart';
+import 'package:dart_azure_ad_sign_in/src/infrastructure/datasources/http_server_datasource.dart';
+import 'package:dart_azure_ad_sign_in/src/infrastructure/models/token_model.dart';
 
 // Todo: some more error handling
 class SignInRepositoryImpl implements SignInRepository {

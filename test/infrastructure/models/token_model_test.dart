@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:dart_azure_aad_sign_in/src/domain/entities/token_entity.dart';
-import 'package:dart_azure_aad_sign_in/src/infrastructure/models/token_model.dart';
+import 'package:dart_azure_ad_sign_in/src/domain/entities/token_entity.dart';
+import 'package:dart_azure_ad_sign_in/src/infrastructure/models/token_model.dart';
 import 'package:test/test.dart';
 
 import '../../fixtures/fixtures_reader.dart';

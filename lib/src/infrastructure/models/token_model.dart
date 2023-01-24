@@ -1,4 +1,4 @@
-import 'package:dart_azure_aad_sign_in/src/domain/entities/token_entity.dart';
+import 'package:dart_azure_ad_sign_in/src/domain/entities/token_entity.dart';
 
 class TokenModel extends Token {
   TokenModel({

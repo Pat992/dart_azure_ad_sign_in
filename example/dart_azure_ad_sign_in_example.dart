@@ -1,4 +1,4 @@
-import 'package:dart_azure_aad_sign_in/dart_azure_aad_sign_in.dart';
+import 'package:dart_azure_ad_sign_in/dart_azure_ad_sign_in.dart';
 
 void main() async {
   final azureSignIn = AzureSignIn(serverTimeoutDuration: Duration(minutes: 10));

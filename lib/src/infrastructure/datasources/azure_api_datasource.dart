@@ -33,15 +33,15 @@ class AzureApiDatasourceImpl implements AzureApiDatasource {
 
     client = HttpClient();
 
-    final formBytes = _createFormData(formMap: formMap);
+    final formBytes = createFormData(formMap: formMap);
 
-    final request = await _createRequest(formBytes: formBytes);
+    final request = await createRequest(formBytes: formBytes);
 
     final response = await request.close();
 
     client.close();
 
-    final stringRes = await _readResponse(response);
+    final stringRes = await readResponse(response: response);
 
     final stringMap = json.decode(stringRes);
 
@@ -58,22 +58,22 @@ class AzureApiDatasourceImpl implements AzureApiDatasource {
 
     client = HttpClient();
 
-    final formBytes = _createFormData(formMap: formMap);
+    final formBytes = createFormData(formMap: formMap);
 
-    final request = await _createRequest(formBytes: formBytes);
+    final request = await createRequest(formBytes: formBytes);
 
     final response = await request.close();
 
     client.close();
 
-    final stringRes = await _readResponse(response);
+    final stringRes = await readResponse(response: response);
 
     final stringMap = json.decode(stringRes);
 
     return stringMap;
   }
 
-  List<int> _createFormData({required Map<String, dynamic> formMap}) {
+  List<int> createFormData({required Map<String, dynamic> formMap}) {
     final List<String> parts = [];
 
     formMap.forEach((key, value) {
@@ -86,8 +86,9 @@ class AzureApiDatasourceImpl implements AzureApiDatasource {
     return utf8.encode(formData);
   }
 
-  Future<HttpClientRequest> _createRequest(
-      {required List<int> formBytes}) async {
+  Future<HttpClientRequest> createRequest({
+    required List<int> formBytes,
+  }) async {
     final request = await client.postUrl(Uri.parse(oauthUri));
 
     request.headers.set('Content-Length', formBytes.length.toString());
@@ -98,7 +99,9 @@ class AzureApiDatasourceImpl implements AzureApiDatasource {
     return request;
   }
 
-  Future<String> _readResponse(HttpClientResponse response) async {
+  Future<String> readResponse({
+    required HttpClientResponse response,
+  }) async {
     final contents = StringBuffer();
     await for (var data in response.transform(utf8.decoder)) {
       contents.write(data);
