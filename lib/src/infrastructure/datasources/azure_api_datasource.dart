@@ -23,66 +23,85 @@ class AzureApiDatasourceImpl implements AzureApiDatasource {
   });
 
   @override
-  Future<Map<String, dynamic>> getToken({required String code}) async {
-    final Map<String, dynamic> formMap = {
-      'code': code,
-      'redirect_uri': 'http://localhost:$port',
-      'grant_type': grantType,
-      'client_id': clientId
-    };
+  Future<Map<String, dynamic>> getToken({
+    required String code,
+  }) async {
+    try {
+      final Map<String, dynamic> formMap = {
+        'code': code,
+        'redirect_uri': 'http://localhost:$port',
+        'grant_type': grantType,
+        'client_id': clientId
+      };
 
-    client = HttpClient();
+      client = HttpClient();
 
-    final formBytes = createFormData(formMap: formMap);
+      final formBytes = createFormData(formMap: formMap);
+      final request = await createRequest(formBytes: formBytes);
+      final response = await request.close();
 
-    final request = await createRequest(formBytes: formBytes);
+      client.close();
 
-    final response = await request.close();
-
-    client.close();
-
-    if (response.statusCode != 404) {
-      final stringRes = await readResponse(response: response);
-
-      final stringMap = json.decode(stringRes);
-
-      return stringMap;
-    } else {
+      if (response.statusCode != 404) {
+        final stringRes = await readResponse(response: response);
+        final stringMap = json.decode(stringRes);
+        return stringMap;
+      } else {
+        return {
+          'error': 'not_found',
+          'error_description': '404 not found',
+        };
+      }
+    } on SocketException catch (e) {
       return {
-        'error': 'not_found',
-        'error_description': '404 not found',
+        'error': 'socket_exception',
+        'error_description': e.message,
+      };
+    } catch (e) {
+      return {
+        'error': 'unknown_exception',
+        'error_description': 'Unknown exception',
       };
     }
   }
 
   @override
-  Future<Map<String, dynamic>> refreshToken(
-      {required String refreshToken}) async {
-    final Map<String, dynamic> formMap = {
-      'grant_type': 'refresh_token',
-      'refresh_token': refreshToken,
-    };
+  Future<Map<String, dynamic>> refreshToken({
+    required String refreshToken,
+  }) async {
+    try {
+      final Map<String, dynamic> formMap = {
+        'grant_type': 'refresh_token',
+        'refresh_token': refreshToken,
+      };
 
-    client = HttpClient();
+      client = HttpClient();
 
-    final formBytes = createFormData(formMap: formMap);
+      final formBytes = createFormData(formMap: formMap);
+      final request = await createRequest(formBytes: formBytes);
+      final response = await request.close();
 
-    final request = await createRequest(formBytes: formBytes);
+      client.close();
 
-    final response = await request.close();
-
-    client.close();
-
-    if (response.statusCode != 404) {
-      final stringRes = await readResponse(response: response);
-
-      final stringMap = json.decode(stringRes);
-
-      return stringMap;
-    } else {
+      if (response.statusCode != 404) {
+        final stringRes = await readResponse(response: response);
+        final stringMap = json.decode(stringRes);
+        return stringMap;
+      } else {
+        return {
+          'error': 'not_found',
+          'error_description': '404 not found',
+        };
+      }
+    } on SocketException catch (e) {
       return {
-        'error': 'not_found',
-        'error_description': '404 not found',
+        'error': 'socket_exception',
+        'error_description': e.message,
+      };
+    } catch (e) {
+      return {
+        'error': 'unknown_exception',
+        'error_description': 'Unknown exception',
       };
     }
   }

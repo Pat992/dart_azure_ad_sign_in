@@ -81,7 +81,7 @@ void main() {
       expect(token, tokenFailure);
     });
 
-    test('Returns empty map if uri is wrong', () async {
+    test('Returns error message if azure-uri path is wrong', () async {
       // arrange
       final tokenEmpty = {
         'error': 'not_found',
@@ -93,6 +93,25 @@ void main() {
         clientId: '1234567890',
         grantType: 'authorization_code',
         oauthUri: 'http://localhost:8080?token_get_wrong_uri=true',
+      );
+      // act
+      final token = await azureApiDatasource.getToken(code: '1234567890');
+      // assert
+      expect(token, tokenEmpty);
+    });
+
+    test('Returns error message if uri is wrong in general', () async {
+      // arrange
+      final tokenEmpty = {
+        'error': 'socket_exception',
+        'error_description': 'Failed host lookup: \'test.test\'',
+      };
+
+      azureApiDatasource = AzureApiDatasourceImpl(
+        port: 8080,
+        clientId: '1234567890',
+        grantType: 'authorization_code',
+        oauthUri: 'http://test.test',
       );
       // act
       final token = await azureApiDatasource.getToken(code: '1234567890');
@@ -132,7 +151,7 @@ void main() {
       expect(token, tokenFailure);
     });
 
-    test('Returns empty map if uri is wrong', () async {
+    test('Returns error message if azure-uri path is wrong', () async {
       // arrange
       final tokenEmpty = {
         'error': 'not_found',
@@ -144,6 +163,25 @@ void main() {
         clientId: '1234567890',
         grantType: 'authorization_code',
         oauthUri: 'http://localhost:8080?token_refresh_wrong_uri=true',
+      );
+      // act
+      final token = await azureApiDatasource.getToken(code: '1234567890');
+      // assert
+      expect(token, tokenEmpty);
+    });
+
+    test('Returns error message if uri is wrong in general', () async {
+      // arrange
+      final tokenEmpty = {
+        'error': 'socket_exception',
+        'error_description': 'Failed host lookup: \'test.test\'',
+      };
+
+      azureApiDatasource = AzureApiDatasourceImpl(
+        port: 8080,
+        clientId: '1234567890',
+        grantType: 'authorization_code',
+        oauthUri: 'http://test.test',
       );
       // act
       final token = await azureApiDatasource.getToken(code: '1234567890');

@@ -22,7 +22,7 @@ class AzureSignIn {
 
   AzureSignIn({
     this.clientId = '04b07795-8ddb-461a-bbee-02f9e1bf7b46',
-    this.port = 59133,
+    this.port = 8080,
     this.serverTimeoutDuration = const Duration(minutes: 5),
     this.serverSuccessResponse =
         'SignIn successful. This window can now be closed.',
