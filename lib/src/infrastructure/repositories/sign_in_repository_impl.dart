@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:dart_azure_ad_sign_in/src/domain/entities/token_entity.dart';
-import 'package:dart_azure_ad_sign_in/src/domain/repositories/sign_in_repository.dart';
+import 'package:dart_azure_ad_sign_in/src/domain/repositories/i_sign_in_repository.dart';
 import 'package:dart_azure_ad_sign_in/src/infrastructure/datasources/azure_api_datasource.dart';
 import 'package:dart_azure_ad_sign_in/src/infrastructure/datasources/http_server_datasource.dart';
 import 'package:dart_azure_ad_sign_in/src/infrastructure/models/token_model.dart';
 
 // Todo: some more error handling
-class SignInRepositoryImpl implements SignInRepository {
+class SignInRepository implements ISignInRepository {
   final int port;
   final String clientId;
   final String grantType;
@@ -15,10 +15,10 @@ class SignInRepositoryImpl implements SignInRepository {
   final String serverSuccessResponse;
   final String serverErrorResponse;
   final Duration serverTimeoutDuration;
-  final AzureApiDatasource azureApiDatasource;
-  final HttpServerDatasource httpServerDatasource;
+  final IAzureApiDatasource azureApiDatasource;
+  final IHttpServerDatasource httpServerDatasource;
 
-  SignInRepositoryImpl({
+  SignInRepository({
     required this.port,
     required this.clientId,
     required this.grantType,

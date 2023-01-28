@@ -8,7 +8,7 @@ void main() {
   late HttpClient client;
 
   setUp(() async {
-    httpServerDatasource = HttpServerDatasourceImpl(
+    httpServerDatasource = HttpServerDatasource(
       port: 8080,
       serverSuccessResponse: 'success',
       serverErrorResponse: 'error',

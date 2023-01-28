@@ -54,7 +54,7 @@ void main() {
     test('Returns valid map if response is successful', () async {
       // arrange
       final tokenSuccess = json.decode(fixture('token_success.json'));
-      azureApiDatasource = AzureApiDatasourceImpl(
+      azureApiDatasource = AzureApiDatasource(
         port: 8080,
         clientId: '1234567890',
         grantType: 'authorization_code',
@@ -69,7 +69,7 @@ void main() {
     test('Returns valid (error) map if response has failed', () async {
       // arrange
       final tokenFailure = json.decode(fixture('token_error.json'));
-      azureApiDatasource = AzureApiDatasourceImpl(
+      azureApiDatasource = AzureApiDatasource(
         port: 8080,
         clientId: '1234567890',
         grantType: 'authorization_code',
@@ -88,7 +88,7 @@ void main() {
         'error_description': '404 not found',
       };
 
-      azureApiDatasource = AzureApiDatasourceImpl(
+      azureApiDatasource = AzureApiDatasource(
         port: 8080,
         clientId: '1234567890',
         grantType: 'authorization_code',
@@ -107,7 +107,7 @@ void main() {
         'error_description': 'Failed host lookup: \'test.test\'',
       };
 
-      azureApiDatasource = AzureApiDatasourceImpl(
+      azureApiDatasource = AzureApiDatasource(
         port: 8080,
         clientId: '1234567890',
         grantType: 'authorization_code',
@@ -124,7 +124,7 @@ void main() {
     test('Returns valid map if response is successful', () async {
       // arrange
       final tokenSuccess = json.decode(fixture('token_refresh.json'));
-      azureApiDatasource = AzureApiDatasourceImpl(
+      azureApiDatasource = AzureApiDatasource(
         port: 8080,
         clientId: '1234567890',
         grantType: 'authorization_code',
@@ -139,7 +139,7 @@ void main() {
     test('Returns valid (error) map if response has failed', () async {
       // arrange
       final tokenFailure = json.decode(fixture('token_error.json'));
-      azureApiDatasource = AzureApiDatasourceImpl(
+      azureApiDatasource = AzureApiDatasource(
         port: 8080,
         clientId: '1234567890',
         grantType: 'authorization_code',
@@ -158,7 +158,7 @@ void main() {
         'error_description': '404 not found',
       };
 
-      azureApiDatasource = AzureApiDatasourceImpl(
+      azureApiDatasource = AzureApiDatasource(
         port: 8080,
         clientId: '1234567890',
         grantType: 'authorization_code',
@@ -177,7 +177,7 @@ void main() {
         'error_description': 'Failed host lookup: \'test.test\'',
       };
 
-      azureApiDatasource = AzureApiDatasourceImpl(
+      azureApiDatasource = AzureApiDatasource(
         port: 8080,
         clientId: '1234567890',
         grantType: 'authorization_code',

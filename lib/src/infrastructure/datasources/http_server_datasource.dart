@@ -2,20 +2,20 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-abstract class HttpServerDatasource {
+abstract class IHttpServerDatasource {
   Future<void> startServer();
   Future<void> stopServer();
   Future<String> listenForRequest();
 }
 
-class HttpServerDatasourceImpl implements HttpServerDatasource {
+class HttpServerDatasource implements IHttpServerDatasource {
   final int port;
   final String serverSuccessResponse;
   final String serverErrorResponse;
   late HttpServer httpServer;
   late StreamSubscription httpServerListener;
 
-  HttpServerDatasourceImpl({
+  HttpServerDatasource({
     required this.port,
     required this.serverSuccessResponse,
     required this.serverErrorResponse,

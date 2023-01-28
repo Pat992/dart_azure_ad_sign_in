@@ -1,5 +1,5 @@
 import 'package:dart_azure_ad_sign_in/src/domain/entities/token_entity.dart';
-import 'package:dart_azure_ad_sign_in/src/domain/repositories/sign_in_repository.dart';
+import 'package:dart_azure_ad_sign_in/src/domain/repositories/i_sign_in_repository.dart';
 import 'package:dart_azure_ad_sign_in/src/infrastructure/datasources/azure_api_datasource.dart';
 import 'package:dart_azure_ad_sign_in/src/infrastructure/datasources/http_server_datasource.dart';
 import 'package:dart_azure_ad_sign_in/src/infrastructure/repositories/sign_in_repository_impl.dart';
@@ -16,9 +16,9 @@ class AzureSignIn {
   final String authUri;
   final String _oauthUri =
       'https://login.microsoftonline.com/organizations/oauth2/token';
-  late final SignInRepository _signInRepository;
-  late final AzureApiDatasource _azureApiDatasource;
-  late final HttpServerDatasource _httpServerDatasource;
+  late final ISignInRepository _signInRepository;
+  late final IAzureApiDatasource _azureApiDatasource;
+  late final IHttpServerDatasource _httpServerDatasource;
 
   AzureSignIn({
     this.clientId = '04b07795-8ddb-461a-bbee-02f9e1bf7b46',
@@ -48,7 +48,7 @@ class AzureSignIn {
   }
 
   void _initAzureApiDatasource() {
-    _azureApiDatasource = AzureApiDatasourceImpl(
+    _azureApiDatasource = AzureApiDatasource(
       port: port,
       clientId: clientId,
       grantType: grantType,
@@ -57,7 +57,7 @@ class AzureSignIn {
   }
 
   void _initHttpServerDatasource() {
-    _httpServerDatasource = HttpServerDatasourceImpl(
+    _httpServerDatasource = HttpServerDatasource(
       port: port,
       serverSuccessResponse: serverSuccessResponse,
       serverErrorResponse: serverErrorResponse,
@@ -65,7 +65,7 @@ class AzureSignIn {
   }
 
   void _initSignInRepository() {
-    _signInRepository = SignInRepositoryImpl(
+    _signInRepository = SignInRepository(
       port: port,
       clientId: clientId,
       grantType: grantType,

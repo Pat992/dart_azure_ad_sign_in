@@ -1,21 +1,21 @@
 import 'dart:convert';
 import 'dart:io';
 
-abstract class AzureApiDatasource {
+abstract class IAzureApiDatasource {
   Future<Map<String, dynamic>> getToken({required String code});
   Future<Map<String, dynamic>> refreshToken({required String refreshToken});
 }
 
 // Todo: error handling
 
-class AzureApiDatasourceImpl implements AzureApiDatasource {
+class AzureApiDatasource implements IAzureApiDatasource {
   final int port;
   final String clientId;
   final String grantType;
   final String oauthUri;
   late HttpClient client;
 
-  AzureApiDatasourceImpl({
+  AzureApiDatasource({
     required this.port,
     required this.clientId,
     required this.grantType,
