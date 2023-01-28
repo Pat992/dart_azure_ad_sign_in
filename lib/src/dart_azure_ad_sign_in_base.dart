@@ -2,7 +2,7 @@ import 'package:dart_azure_ad_sign_in/src/domain/entities/token_entity.dart';
 import 'package:dart_azure_ad_sign_in/src/domain/repositories/i_sign_in_repository.dart';
 import 'package:dart_azure_ad_sign_in/src/infrastructure/datasources/azure_api_datasource.dart';
 import 'package:dart_azure_ad_sign_in/src/infrastructure/datasources/http_server_datasource.dart';
-import 'package:dart_azure_ad_sign_in/src/infrastructure/repositories/sign_in_repository_impl.dart';
+import 'package:dart_azure_ad_sign_in/src/infrastructure/repositories/sign_in_repository.dart';
 
 /// Checks if you are awesome. Spoiler: you are.
 class AzureSignIn {

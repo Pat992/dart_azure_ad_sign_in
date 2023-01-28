@@ -26,28 +26,27 @@ class HttpServerDatasource implements IHttpServerDatasource {
   Future<String> listenForRequest() async {
     final httpServerCompleter = Completer<String>();
 
-    httpServerListener = httpServer.listen((request) {
-      utf8.decodeStream(request).then((data) async {
-        if (data.contains('code=')) {
-          var code = data;
-          const start = 'code=';
-          const end = '&';
+    httpServerListener = httpServer.listen((request) async {
+      final body = await utf8.decodeStream(request);
+      if (body.contains('code=')) {
+        var code = body;
+        const start = 'code=';
+        const end = '&';
 
-          final startIndex = code.indexOf(start);
-          final endIndex = code.indexOf(end, startIndex + start.length);
+        final startIndex = code.indexOf(start);
+        final endIndex = code.indexOf(end, startIndex + start.length);
 
-          code = code.substring(startIndex + start.length, endIndex);
+        code = code.substring(startIndex + start.length, endIndex);
 
-          request.response.statusCode = 200;
-          request.response.write(serverSuccessResponse);
-          request.response.close();
+        request.response.statusCode = 200;
+        request.response.write(serverSuccessResponse);
+        request.response.close();
 
-          // await httpServerListener.cancel();
-          // await httpServer.close(force: true);
+        // await httpServerListener.cancel();
+        // await httpServer.close(force: true);
 
-          httpServerCompleter.complete(code);
-        }
-      });
+        httpServerCompleter.complete(code);
+      }
     });
 
     final code = await httpServerCompleter.future;

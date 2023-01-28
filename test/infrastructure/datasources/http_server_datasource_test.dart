@@ -4,7 +4,7 @@ import 'package:dart_azure_ad_sign_in/src/infrastructure/datasources/http_server
 import 'package:test/test.dart';
 
 void main() {
-  late HttpServerDatasource httpServerDatasource;
+  late IHttpServerDatasource httpServerDatasource;
   late HttpClient client;
 
   setUp(() async {

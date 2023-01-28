@@ -7,7 +7,7 @@ import 'package:test/test.dart';
 import '../../fixtures/fixtures_reader.dart';
 
 void main() {
-  late AzureApiDatasource azureApiDatasource;
+  late IAzureApiDatasource azureApiDatasource;
   late HttpServer httpServer;
   late StreamSubscription httpServerListener;
 
