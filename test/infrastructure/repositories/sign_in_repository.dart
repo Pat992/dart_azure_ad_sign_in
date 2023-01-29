@@ -102,7 +102,6 @@ void main() {
     );
 
     signInRepository = SignInRepository(
-      serverTimeoutDuration: Duration(minutes: 5),
       azureApiDatasource: azureApiDatasource,
       httpServerDatasource: httpServerDatasource,
     );

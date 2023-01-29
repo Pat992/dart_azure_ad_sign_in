@@ -9,7 +9,6 @@ class AzureSignIn {
   final String clientId;
   final String grantType;
   final int port;
-  final Duration serverTimeoutDuration;
   final String serverSuccessResponse;
   final String serverErrorResponse;
   final String authUri;
@@ -24,7 +23,6 @@ class AzureSignIn {
   AzureSignIn({
     this.clientId = '04b07795-8ddb-461a-bbee-02f9e1bf7b46',
     this.port = 8080,
-    this.serverTimeoutDuration = const Duration(minutes: 5),
     this.serverSuccessResponse =
         'Sign In successful. This window can now be closed.',
     this.serverErrorResponse =
@@ -68,7 +66,6 @@ class AzureSignIn {
 
   void _initSignInRepository() {
     _signInRepository = SignInRepository(
-      serverTimeoutDuration: serverTimeoutDuration,
       azureApiDatasource: _azureApiDatasource,
       httpServerDatasource: _httpServerDatasource,
     );

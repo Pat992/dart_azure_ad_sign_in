@@ -9,12 +9,10 @@ import 'package:dart_azure_ad_sign_in/src/infrastructure/models/token_model.dart
 
 // Todo: some more error handling
 class SignInRepository implements ISignInRepository {
-  final Duration serverTimeoutDuration;
   final IAzureApiDatasource azureApiDatasource;
   final IHttpServerDatasource httpServerDatasource;
 
   SignInRepository({
-    required this.serverTimeoutDuration,
     required this.azureApiDatasource,
     required this.httpServerDatasource,
   });
@@ -23,21 +21,15 @@ class SignInRepository implements ISignInRepository {
   Future<Token> signIn() async {
     TokenModel tokenModel;
     try {
-      // final future = Future.delayed(serverTimeoutDuration);
-      // final timeoutStream = future.asStream();
-      //
-      // final timeoutStreamSubscription = timeoutStream.listen((event) {
-      //   cancelSignIn();
-      //   token = TokenModel.fromMap({});
-      // });
-
       await httpServerDatasource.startServer();
 
       final serverModel = await httpServerDatasource.listenForRequest();
 
-      tokenModel = await azureApiDatasource.getToken(code: serverModel.code);
-
-      //timeoutStreamSubscription.cancel();
+      if (serverModel.code.isNotEmpty) {
+        tokenModel = await azureApiDatasource.getToken(code: serverModel.code);
+      } else {
+        tokenModel = TokenModel.fromMap(serverModel.toMap());
+      }
     } on HttpServerSocketException catch (e) {
       tokenModel = TokenModel.fromMap({
         'error': 'http_server_socket_exception',
