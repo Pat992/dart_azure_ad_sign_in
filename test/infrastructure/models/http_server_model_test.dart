@@ -8,6 +8,7 @@ void main() {
     status: 0,
     error: '',
     errorDescription: '',
+    errorUri: '',
   );
 
   test('Model is subclass of Http Server entity', () {

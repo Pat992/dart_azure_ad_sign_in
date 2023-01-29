@@ -6,6 +6,7 @@ class HttpServerModel extends HttpServerEntity {
     required super.status,
     required super.error,
     required super.errorDescription,
+    required super.errorUri,
   });
 
   Map<String, dynamic> toMap() {
@@ -13,7 +14,8 @@ class HttpServerModel extends HttpServerEntity {
       'code': code,
       'status': status,
       'error': error,
-      'errorDescription': errorDescription,
+      'error_description': errorDescription,
+      'error_uri': errorUri,
     };
   }
 
@@ -23,6 +25,7 @@ class HttpServerModel extends HttpServerEntity {
       status: map['status'] as int,
       error: map['error'] as String,
       errorDescription: map['error_description'] as String,
+      errorUri: map['error_uri'] as String,
     );
   }
 }
