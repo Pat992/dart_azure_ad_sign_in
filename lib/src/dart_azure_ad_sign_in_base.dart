@@ -7,7 +7,7 @@ import 'package:dart_azure_ad_sign_in/src/infrastructure/datasources/azure_api_d
 import 'package:dart_azure_ad_sign_in/src/infrastructure/datasources/http_server_datasource.dart';
 import 'package:dart_azure_ad_sign_in/src/infrastructure/repositories/sign_in_repository.dart';
 
-/// Sign user into [Azure] via [Active Directory], using [OAuth 2.0].
+/// **Description:** Sign In users to Azure using the Microsoft identity platform and OAuth 2.0 authorization code flow.
 class AzureSignIn {
   /// **Description:** The Application (client) ID that the Azure portal – App registrations page assigned to your app.
   /// Uses the AZ CLI client ID by default, no app registration necessary.
@@ -55,28 +55,28 @@ class AzureSignIn {
   late final IAzureApiDatasource _azureApiDatasource;
   late final IHttpServerDatasource _httpServerDatasource;
 
-  /// **Sign In user to Azure via Active Directory, using OAuth 2.0.**
+  /// **Description:** Sign In users to Azure using the Microsoft identity platform and OAuth 2.0 authorization code flow.
   ///
-  /// **clientId** The Application (client) ID that the Azure portal – App registrations page assigned to your app.
+  /// **clientId:** The Application (client) ID that the Azure portal – App registrations page assigned to your app.
   ///
   /// [Type:] String *optional*
   ///
   /// [Default value:] '04b07795-8ddb-461a-bbee-02f9e1bf7b46' (AZ CLI client)
   ///
-  /// **port** Port of the Local HttpServer which will receive the code after sign in.
+  /// **port:** Port of the Local HttpServer which will receive the code after sign in.
   ///
   /// [Type:] int *optional*
   ///
   /// [Default value:] 8080
   ///
-  /// **serverSuccessResponse** Response of the Local HttpServer, which the user will see after successfully logging in.
+  /// **serverSuccessResponse:** Response of the Local HttpServer, which the user will see after successfully logging in.
   /// Can be a Simple Text-String or a HTTP-String
   ///
   /// [Type:] String *optional*
   ///
   /// [Default value:] 'Sign In successful. This window can now be closed.'
   ///
-  /// **serverErrorResponse** Response of the Local HttpServer, which the user will see after sign in failure.
+  /// **serverErrorResponse:** Response of the Local HttpServer, which the user will see after sign in failure.
   /// Can be a Simple Text-String or a HTTP-String
   ///
   /// [Type:] String *optional*

@@ -1,6 +1,8 @@
 import 'package:dart_azure_ad_sign_in/src/domain/entities/token_entity.dart';
 
+/// **Description:** Model of the [Token]
 class TokenModel extends Token {
+  /// **Description:** Creates a [TokenModel] Object
   TokenModel({
     required super.tokenType,
     required super.scope,
@@ -20,6 +22,7 @@ class TokenModel extends Token {
     required super.errorUri,
   });
 
+  /// **Description:** Transforms Object to Map, with Keys, understood by the Azure API
   Map<String, dynamic> toMap() {
     return {
       'token_type': tokenType,
@@ -41,6 +44,7 @@ class TokenModel extends Token {
     };
   }
 
+  /// **Description:** Transforms a Map from the Azure API to the [TokenModel]
   factory TokenModel.fromMap(Map<String, dynamic> map) {
     return TokenModel(
       tokenType: map['token_type'] ?? '',
@@ -62,6 +66,7 @@ class TokenModel extends Token {
     );
   }
 
+  /// **Description:** Replaces given values, while keeping the existing ones.
   TokenModel copyWith({
     String? tokenType,
     String? scope,

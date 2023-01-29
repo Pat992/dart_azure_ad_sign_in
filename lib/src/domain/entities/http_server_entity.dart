@@ -1,7 +1,7 @@
 // Copyright 2023 Patrick Hettich. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
-/// Object returned by the Local HttpServer.
+/// **Description:** Object returned by the Local HttpServer.
 class HttpServerEntity {
   /// **Description:** Code that has been sent to the Server, after successful Sign In.
   /// In case of success a code, in case of an error, an empty String.
@@ -30,7 +30,7 @@ class HttpServerEntity {
   /// or if not returned empty.
   final String errorUri;
 
-  /// Creates an Object with either given [code] and a [status] of 0.
+  /// **Description:** Creates an Object with either given [code] and a [status] of 0.
   /// In case of an error some further information and a [status] of either 2 or 3.
   ///
   /// **status**
