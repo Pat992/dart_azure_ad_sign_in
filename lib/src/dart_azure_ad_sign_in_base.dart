@@ -43,8 +43,8 @@ class AzureSignIn {
     return await _signInRepository.refreshToken(token: token);
   }
 
-  void cancelSignIn() {
-    _signInRepository.cancelSignIn();
+  Future<void> cancelSignIn() async {
+    await _signInRepository.cancelSignIn();
   }
 
   void _initAzureApiDatasource() {
