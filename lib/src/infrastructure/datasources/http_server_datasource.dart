@@ -8,6 +8,9 @@ abstract class IHttpServerDatasource {
   Future<void> startServer();
   Future<void> stopServer();
   Future<HttpServerModel> listenForRequest();
+  Map<String, dynamic> createSuccessResponse({required String body});
+  Map<String, dynamic> createErrorOrCancellationResponse(
+      {required String body});
 }
 
 class HttpServerDatasource implements IHttpServerDatasource {
@@ -16,89 +19,111 @@ class HttpServerDatasource implements IHttpServerDatasource {
   final String serverErrorResponse;
   late HttpServer httpServer;
   late StreamSubscription httpServerListener;
+  final String formSplitter;
+  final String formCode;
+  final String formError;
+  final String formErrorDesc;
+  final String formErrorUri;
 
   HttpServerDatasource({
     required this.port,
     required this.serverSuccessResponse,
     required this.serverErrorResponse,
+    this.formSplitter = '&',
+    this.formCode = 'code=',
+    this.formError = 'error=',
+    this.formErrorDesc = 'error_description=',
+    this.formErrorUri = 'error_uri=',
   });
 
-  // Todo: cancellation can be added here
   @override
   Future<HttpServerModel> listenForRequest() async {
-    const formSplitter = '&';
-    const formCode = 'code=';
-    const formError = 'error=';
-    const formErrorDesc = 'error_description=';
-    const formErrorUri = 'error_uri=';
-
     final httpServerCompleter = Completer<Map<String, dynamic>>();
     httpServerListener = httpServer.listen((request) async {
       final body = await utf8.decodeStream(request);
 
       if (body.contains(formCode)) {
-        final responseArray = body.split(formSplitter);
-
-        final response = responseArray
-            .firstWhere((element) => element.contains(formCode))
-            .replaceFirst(formCode, '');
+        final mappedResponse = createSuccessResponse(body: body);
 
         request.response.statusCode = 200;
         request.response.write(serverSuccessResponse);
         request.response.close();
 
-        httpServerCompleter.complete({
-          'code': response,
-          'status': 0,
-          'error': '',
-          'error_description': '',
-          'error_uri': ''
-        });
+        httpServerCompleter.complete(mappedResponse);
       } else if (body.contains(formError)) {
-        final responseArray = body.split(formSplitter);
-
-        final error = responseArray
-            .firstWhere(
-              (element) => element.contains(formError),
-              orElse: () => '',
-            )
-            .replaceFirst(formError, '');
-
-        final errorDescription = responseArray
-            .firstWhere(
-              (element) => element.contains(formErrorDesc),
-              orElse: () => '',
-            )
-            .replaceFirst(formErrorDesc, '');
-
-        final errorUri = Uri.decodeFull(
-          responseArray
-              .firstWhere(
-                (element) => element.contains(formErrorUri),
-                orElse: () => '',
-              )
-              .replaceFirst(formErrorUri, ''),
-        );
-
-        print(body);
+        final mappedResponse = createErrorOrCancellationResponse(body: body);
 
         request.response.statusCode = 400;
         request.response.write(serverErrorResponse);
         request.response.close();
 
-        httpServerCompleter.complete({
-          'code': '',
-          'status': 3,
-          'error': error,
-          'error_description': errorDescription,
-          'error_uri': errorUri,
-        });
+        httpServerCompleter.complete(mappedResponse);
       }
     });
 
     final response = await httpServerCompleter.future;
 
     return HttpServerModel.fromMap(response);
+  }
+
+  @override
+  Map<String, dynamic> createSuccessResponse({required String body}) {
+    final responseArray = body.split(formSplitter);
+
+    final response = responseArray
+        .firstWhere((element) => element.contains(formCode), orElse: () => '')
+        .replaceFirst(formCode, '');
+
+    return {
+      'code': response,
+      'status': 0,
+      'error': '',
+      'error_description': '',
+      'error_uri': ''
+    };
+  }
+
+  @override
+  Map<String, dynamic> createErrorOrCancellationResponse(
+      {required String body}) {
+    final responseArray = body.split(formSplitter);
+
+    final error = Uri.decodeFull(
+      responseArray
+          .firstWhere(
+            (element) => element.contains(formError),
+            orElse: () => '',
+          )
+          .replaceFirst(formError, '')
+          .replaceAll('+', ' '),
+    );
+
+    final errorDescription = Uri.decodeFull(
+      responseArray
+          .firstWhere(
+            (element) => element.contains(formErrorDesc),
+            orElse: () => '',
+          )
+          .replaceFirst(formErrorDesc, '')
+          .replaceAll('+', ' '),
+    );
+
+    final errorUri = Uri.decodeFull(
+      responseArray
+          .firstWhere(
+            (element) => element.contains(formErrorUri),
+            orElse: () => '',
+          )
+          .replaceFirst(formErrorUri, ''),
+    );
+
+    return {
+      'code': '',
+      'status': error.contains('cancellation') ? 3 : 2,
+      'error': error,
+      'error_description': errorDescription,
+      'error_uri': errorUri,
+    };
   }
 
   @override

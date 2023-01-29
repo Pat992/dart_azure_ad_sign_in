@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dart_azure_ad_sign_in/src/domain/entities/http_server_entity.dart';
+import 'package:dart_azure_ad_sign_in/src/infrastructure/datasources/azure_api_datasource.dart';
 import 'package:dart_azure_ad_sign_in/src/infrastructure/datasources/http_server_datasource.dart';
 import 'package:test/test.dart';
 
@@ -25,18 +27,19 @@ void main() {
     'code': '',
     'error': 'error-message',
     'error_description': 'error-description',
-    'status': 3,
+    'status': 2,
     'error_uri': 'https://test.com',
   };
-  final emptyBody = {};
-  final emptyResponse = {
+  final cancellationResponse = {
     'code': '',
-    'error': 'error-message',
-    'error_description': 'error-description',
+    'error': 'cancellation',
+    'error_description': 'Sign In was cancelled',
     'status': 3,
+    'error_uri': ''
   };
   final serverUrl = 'http://localhost:8080';
   late IHttpServerDatasource httpServerDatasource;
+  late IAzureApiDatasource azureApiDatasource;
   late HttpClient client;
 
   List<int> createFormData({required Map<String, dynamic> formMap}) {
@@ -81,6 +84,13 @@ void main() {
       serverSuccessResponse: 'success',
       serverErrorResponse: 'error',
     );
+
+    azureApiDatasource = AzureApiDatasource(
+      port: 8080,
+      clientId: '123456789',
+      grantType: 'authorization_code',
+      oauthUri: 'https://test.com',
+    );
     client = HttpClient();
   });
 
@@ -99,6 +109,7 @@ void main() {
     expect(response.statusCode, 200);
     serverResultFuture.then((serverResult) {
       expect(serverResult.toMap(), successResponse);
+      expect(serverResult, isA<HttpServerEntity>());
     });
   });
 
@@ -117,13 +128,22 @@ void main() {
     expect(response.statusCode, 400);
     serverResultFuture.then((serverResult) {
       expect(serverResult.toMap(), errorResponse);
+      expect(serverResult, isA<HttpServerEntity>());
     });
   });
 
-  test('Get error in body if body is empty', () async {
+  test('Get cancellation body if sign in has been cancelled', () async {
     // arrange
     // act
+    await httpServerDatasource.startServer();
+    final serverResultFuture = httpServerDatasource.listenForRequest();
+    await azureApiDatasource.cancelGetToken();
+    await httpServerDatasource.stopServer();
     // assert
+    serverResultFuture.then((serverResult) {
+      expect(serverResult.toMap(), cancellationResponse);
+      expect(serverResult, isA<HttpServerEntity>());
+    });
   });
 
   tearDown(() async {

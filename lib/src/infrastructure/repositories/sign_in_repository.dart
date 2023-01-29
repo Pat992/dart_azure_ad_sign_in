@@ -32,7 +32,6 @@ class SignInRepository implements ISignInRepository {
 
   @override
   Future<Token> signIn() async {
-    TokenModel token;
     // final future = Future.delayed(serverTimeoutDuration);
     // final timeoutStream = future.asStream();
     //
@@ -48,13 +47,11 @@ class SignInRepository implements ISignInRepository {
     final tokenModel =
         await azureApiDatasource.getToken(code: serverModel.code);
 
-    token = TokenModel.fromMap(tokenModel);
-
     //timeoutStreamSubscription.cancel();
 
     await httpServerDatasource.stopServer();
 
-    return token;
+    return tokenModel;
   }
 
   @override
@@ -65,17 +62,17 @@ class SignInRepository implements ISignInRepository {
         await azureApiDatasource.refreshToken(refreshToken: token.refreshToken);
 
     return tokenModel.copyWith(
-      expiresIn: refreshedToken['expires_in'],
-      extExpiresIn: refreshedToken['ext_expires_in'],
-      expiresOn: refreshedToken['expires_on'],
-      notBefore: refreshedToken['not_before'],
-      accessToken: refreshedToken['access_token'],
-      refreshToken: refreshedToken['refresh_token'],
+      expiresIn: refreshedToken.expiresIn,
+      extExpiresIn: refreshedToken.extExpiresIn,
+      expiresOn: refreshedToken.expiresOn,
+      notBefore: refreshedToken.notBefore,
+      accessToken: refreshedToken.accessToken,
+      refreshToken: refreshedToken.refreshToken,
     );
   }
 
   @override
-  void cancelSignIn() {
-    httpServerDatasource.stopServer();
+  Future<void> cancelSignIn() async {
+    await azureApiDatasource.cancelGetToken();
   }
 }

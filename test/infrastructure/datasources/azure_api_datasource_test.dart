@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:dart_azure_ad_sign_in/src/domain/entities/token_entity.dart';
 import 'package:dart_azure_ad_sign_in/src/infrastructure/datasources/azure_api_datasource.dart';
+import 'package:dart_azure_ad_sign_in/src/infrastructure/models/token_model.dart';
 import 'package:test/test.dart';
 
 import '../../fixtures/fixtures_reader.dart';
@@ -12,7 +14,7 @@ void main() {
   late StreamSubscription httpServerListener;
 
   setUp(() async {
-    httpServer = await HttpServer.bind('localhost', 8080);
+    httpServer = await HttpServer.bind('localhost', 8000);
 
     httpServerListener = httpServer.listen((request) {
       if (request.uri.queryParametersAll.containsKey('token_get_success')) {
@@ -55,30 +57,32 @@ void main() {
       // arrange
       final tokenSuccess = json.decode(fixture('token_success.json'));
       azureApiDatasource = AzureApiDatasource(
-        port: 8080,
+        port: 8000,
         clientId: '1234567890',
         grantType: 'authorization_code',
-        oauthUri: 'http://localhost:8080?token_get_success=true',
+        oauthUri: 'http://localhost:8000?token_get_success=true',
       );
       // act
       final token = await azureApiDatasource.getToken(code: '1234567890');
       // assert
-      expect(token, tokenSuccess);
+      expect(token.toMap(), TokenModel.fromMap(tokenSuccess).toMap());
+      expect(token, isA<Token>());
     });
 
     test('Returns valid (error) map if response has failed', () async {
       // arrange
       final tokenFailure = json.decode(fixture('token_error.json'));
       azureApiDatasource = AzureApiDatasource(
-        port: 8080,
+        port: 8000,
         clientId: '1234567890',
         grantType: 'authorization_code',
-        oauthUri: 'http://localhost:8080?token_get_failure=true',
+        oauthUri: 'http://localhost:8000?token_get_failure=true',
       );
       // act
       final token = await azureApiDatasource.getToken(code: '1234567890');
       // assert
-      expect(token, tokenFailure);
+      expect(token.toMap(), TokenModel.fromMap(tokenFailure).toMap());
+      expect(token, isA<Token>());
     });
 
     test('Returns error message if azure-uri path is wrong', () async {
@@ -86,18 +90,19 @@ void main() {
       final tokenEmpty = {
         'error': 'not_found',
         'error_description': '404 not found',
+        'status': 1,
       };
 
       azureApiDatasource = AzureApiDatasource(
-        port: 8080,
+        port: 8000,
         clientId: '1234567890',
         grantType: 'authorization_code',
-        oauthUri: 'http://localhost:8080?token_get_wrong_uri=true',
+        oauthUri: 'http://localhost:8000?token_get_wrong_uri=true',
       );
       // act
       final token = await azureApiDatasource.getToken(code: '1234567890');
       // assert
-      expect(token, tokenEmpty);
+      expect(token.toMap(), TokenModel.fromMap(tokenEmpty).toMap());
     });
 
     test('Returns error message if uri is wrong in general', () async {
@@ -105,10 +110,11 @@ void main() {
       final tokenEmpty = {
         'error': 'socket_exception',
         'error_description': 'Failed host lookup: \'test.test\'',
+        'status': 1,
       };
 
       azureApiDatasource = AzureApiDatasource(
-        port: 8080,
+        port: 8000,
         clientId: '1234567890',
         grantType: 'authorization_code',
         oauthUri: 'http://test.test',
@@ -116,7 +122,8 @@ void main() {
       // act
       final token = await azureApiDatasource.getToken(code: '1234567890');
       // assert
-      expect(token, tokenEmpty);
+      expect(token.toMap(), TokenModel.fromMap(tokenEmpty).toMap());
+      expect(token, isA<Token>());
     });
   });
 
@@ -125,30 +132,32 @@ void main() {
       // arrange
       final tokenSuccess = json.decode(fixture('token_refresh.json'));
       azureApiDatasource = AzureApiDatasource(
-        port: 8080,
+        port: 8000,
         clientId: '1234567890',
         grantType: 'authorization_code',
-        oauthUri: 'http://localhost:8080?token_refresh_success=true',
+        oauthUri: 'http://localhost:8000?token_refresh_success=true',
       );
       // act
       final token = await azureApiDatasource.getToken(code: '1234567890');
       // assert
-      expect(token, tokenSuccess);
+      expect(token.toMap(), TokenModel.fromMap(tokenSuccess).toMap());
+      expect(token, isA<Token>());
     });
 
     test('Returns valid (error) map if response has failed', () async {
       // arrange
       final tokenFailure = json.decode(fixture('token_error.json'));
       azureApiDatasource = AzureApiDatasource(
-        port: 8080,
+        port: 8000,
         clientId: '1234567890',
         grantType: 'authorization_code',
-        oauthUri: 'http://localhost:8080?token_refresh_failure=true',
+        oauthUri: 'http://localhost:8000?token_refresh_failure=true',
       );
       // act
       final token = await azureApiDatasource.getToken(code: '1234567890');
       // assert
-      expect(token, tokenFailure);
+      expect(token.toMap(), TokenModel.fromMap(tokenFailure).toMap());
+      expect(token, isA<Token>());
     });
 
     test('Returns error message if azure-uri path is wrong', () async {
@@ -156,18 +165,20 @@ void main() {
       final tokenEmpty = {
         'error': 'not_found',
         'error_description': '404 not found',
+        'status': 1,
       };
 
       azureApiDatasource = AzureApiDatasource(
-        port: 8080,
+        port: 8000,
         clientId: '1234567890',
         grantType: 'authorization_code',
-        oauthUri: 'http://localhost:8080?token_refresh_wrong_uri=true',
+        oauthUri: 'http://localhost:8000?token_refresh_wrong_uri=true',
       );
       // act
       final token = await azureApiDatasource.getToken(code: '1234567890');
       // assert
-      expect(token, tokenEmpty);
+      expect(token.toMap(), TokenModel.fromMap(tokenEmpty).toMap());
+      expect(token, isA<Token>());
     });
 
     test('Returns error message if uri is wrong in general', () async {
@@ -175,10 +186,11 @@ void main() {
       final tokenEmpty = {
         'error': 'socket_exception',
         'error_description': 'Failed host lookup: \'test.test\'',
+        'status': 1,
       };
 
       azureApiDatasource = AzureApiDatasource(
-        port: 8080,
+        port: 8000,
         clientId: '1234567890',
         grantType: 'authorization_code',
         oauthUri: 'http://test.test',
@@ -186,7 +198,8 @@ void main() {
       // act
       final token = await azureApiDatasource.getToken(code: '1234567890');
       // assert
-      expect(token, tokenEmpty);
+      expect(token.toMap(), TokenModel.fromMap(tokenEmpty).toMap());
+      expect(token, isA<Token>());
     });
   });
 
