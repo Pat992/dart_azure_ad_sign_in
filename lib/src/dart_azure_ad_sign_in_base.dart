@@ -12,10 +12,11 @@ class AzureSignIn {
   final Duration serverTimeoutDuration;
   final String serverSuccessResponse;
   final String serverErrorResponse;
-
   final String authUri;
+
   final String _oauthUri =
       'https://login.microsoftonline.com/organizations/oauth2/token';
+
   late final ISignInRepository _signInRepository;
   late final IAzureApiDatasource _azureApiDatasource;
   late final IHttpServerDatasource _httpServerDatasource;
@@ -67,12 +68,6 @@ class AzureSignIn {
 
   void _initSignInRepository() {
     _signInRepository = SignInRepository(
-      port: port,
-      clientId: clientId,
-      grantType: grantType,
-      oauthUri: _oauthUri,
-      serverSuccessResponse: serverSuccessResponse,
-      serverErrorResponse: serverErrorResponse,
       serverTimeoutDuration: serverTimeoutDuration,
       azureApiDatasource: _azureApiDatasource,
       httpServerDatasource: _httpServerDatasource,

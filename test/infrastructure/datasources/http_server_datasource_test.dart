@@ -10,7 +10,6 @@ void main() {
   final successBody = {
     'code': '1234567890',
   };
-
   final successResponse = {
     'code': '1234567890',
     'error': '',
