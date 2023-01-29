@@ -77,16 +77,6 @@ void main() {
     return request;
   }
 
-  Future<String> readResponse({
-    required HttpClientResponse response,
-  }) async {
-    final contents = StringBuffer();
-    await for (var data in response.transform(utf8.decoder)) {
-      contents.write(data);
-    }
-    return contents.toString();
-  }
-
   setUp(() async {
     azureApiDatasource = AzureApiDatasource(
       port: 8090,

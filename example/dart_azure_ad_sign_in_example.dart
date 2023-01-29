@@ -1,7 +1,7 @@
 import 'package:dart_azure_ad_sign_in/dart_azure_ad_sign_in.dart';
 
 void main() async {
-  final azureSignIn = AzureSignIn(serverTimeoutDuration: Duration(seconds: 10));
+  final azureSignIn = AzureSignIn();
 
   print(azureSignIn.authUri);
 
@@ -9,6 +9,4 @@ void main() async {
 
   print(token.errorDescription);
   print(token.accessToken);
-
-  return;
 }
