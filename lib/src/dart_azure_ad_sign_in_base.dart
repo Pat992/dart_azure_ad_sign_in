@@ -12,6 +12,7 @@ class AzureSignIn {
   final String serverSuccessResponse;
   final String serverErrorResponse;
   final String authUri;
+  final Duration signInTimeoutDuration;
 
   final String _oauthUri =
       'https://login.microsoftonline.com/organizations/oauth2/token';
@@ -28,6 +29,7 @@ class AzureSignIn {
     this.serverErrorResponse =
         'Sign In failed. Close this window and try again',
     this.grantType = 'authorization_code',
+    this.signInTimeoutDuration = const Duration(minutes: 5),
   }) : authUri =
             'https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize?client_id=$clientId&response_type=code&redirect_uri=http://localhost:$port&scope=https://management.core.windows.net//.default+offline_access+openid+profile&response_mode=form_post' {
     _initAzureApiDatasource();
@@ -68,6 +70,7 @@ class AzureSignIn {
     _signInRepository = SignInRepository(
       azureApiDatasource: _azureApiDatasource,
       httpServerDatasource: _httpServerDatasource,
+      signInTimeoutDuration: signInTimeoutDuration,
     );
   }
 }

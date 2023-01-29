@@ -130,7 +130,7 @@ class HttpServerDatasource implements IHttpServerDatasource {
   @override
   Future<void> startServer() async {
     try {
-      httpServer = await HttpServer.bind('localhost', port);
+      httpServer = await HttpServer.bind('localhost', port, shared: true);
     } on SocketException catch (e) {
       throw HttpServerSocketException(e.message,
           address: e.address, osError: e.osError, port: e.port);

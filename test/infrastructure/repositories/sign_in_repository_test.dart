@@ -47,6 +47,7 @@ void main() {
   IHttpServerDatasource httpServerDatasource;
 
   late ISignInRepository signInRepository;
+  late ISignInRepository signInRepositoryTimeoutError;
   late HttpServer httpAuthServer;
   late StreamSubscription httpServerListener;
   late HttpClient client;
@@ -79,14 +80,14 @@ void main() {
 
   setUp(() async {
     azureApiDatasource = AzureApiDatasource(
-      port: 8090,
+      port: 5050,
       clientId: '04b07795-8ddb-461a-bbee-02f9e1bf7b46',
       grantType: 'authorization_code',
       oauthUri: 'http://localhost:5000',
     );
 
     httpServerDatasource = HttpServerDatasource(
-      port: 8090,
+      port: 5050,
       serverSuccessResponse: 'success',
       serverErrorResponse: 'error',
     );
@@ -94,6 +95,13 @@ void main() {
     signInRepository = SignInRepository(
       azureApiDatasource: azureApiDatasource,
       httpServerDatasource: httpServerDatasource,
+      signInTimeoutDuration: Duration(minutes: 5),
+    );
+
+    signInRepositoryTimeoutError = SignInRepository(
+      azureApiDatasource: azureApiDatasource,
+      httpServerDatasource: httpServerDatasource,
+      signInTimeoutDuration: Duration(seconds: 2),
     );
 
     client = HttpClient();
@@ -174,11 +182,12 @@ void main() {
       });
     });
 
-    test('Cancel Sign In, get Token with cancelling error', () async {
+    test(
+        'Cancel Sign In by reaching the 5 second timeout, get Token with cancelling error',
+        () async {
       // arrange
       // act
-      final tokenFuture = signInRepository.signIn();
-      signInRepository.cancelSignIn();
+      final tokenFuture = signInRepositoryTimeoutError.signIn();
       // assert
       tokenFuture.then((tokenResult) {
         expect((tokenResult as TokenModel).toMap(), cancellationResponse);
@@ -187,7 +196,7 @@ void main() {
     });
   });
 
-  group('getToken function', () {
+  group('refreshToken function', () {
     test('Get valid Token if refresh has been successful', () async {
       // arrange
       final token =

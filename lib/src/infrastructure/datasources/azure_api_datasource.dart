@@ -50,7 +50,7 @@ class AzureApiDatasource implements IAzureApiDatasource {
       );
       final response = await request.close();
 
-      client.close();
+      client.close(force: true);
 
       if (response.statusCode != 404) {
         final stringRes = await readResponse(response: response);
@@ -97,7 +97,7 @@ class AzureApiDatasource implements IAzureApiDatasource {
       );
       final response = await request.close();
 
-      client.close();
+      client.close(force: true);
 
       if (response.statusCode != 404) {
         final stringRes = await readResponse(response: response);
@@ -127,21 +127,25 @@ class AzureApiDatasource implements IAzureApiDatasource {
 
   @override
   Future<void> cancelGetToken() async {
-    const Map<String, dynamic> formMap = {
-      'error': 'cancellation',
-      'error_description': 'Sign In was cancelled',
-    };
+    try {
+      const Map<String, dynamic> formMap = {
+        'error': 'cancellation',
+        'error_description': 'Sign In was cancelled',
+      };
 
-    client = HttpClient();
+      client = HttpClient();
 
-    final formBytes = createFormData(formMap: formMap);
+      final formBytes = createFormData(formMap: formMap);
 
-    final request = await createRequest(
-      formBytes: formBytes,
-      uri: 'http://localhost:$port',
-    );
-    await request.close();
-    client.close();
+      final request = await createRequest(
+        formBytes: formBytes,
+        uri: 'http://localhost:$port',
+      );
+      await request.close();
+      client.close(force: true);
+    } catch (e) {
+      return;
+    }
   }
 
   @override

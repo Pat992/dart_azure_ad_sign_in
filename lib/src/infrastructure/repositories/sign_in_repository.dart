@@ -11,14 +11,20 @@ import 'package:dart_azure_ad_sign_in/src/infrastructure/models/token_model.dart
 class SignInRepository implements ISignInRepository {
   final IAzureApiDatasource azureApiDatasource;
   final IHttpServerDatasource httpServerDatasource;
+  final Duration signInTimeoutDuration;
 
   SignInRepository({
     required this.azureApiDatasource,
     required this.httpServerDatasource,
+    required this.signInTimeoutDuration,
   });
 
   @override
   Future<Token> signIn() async {
+    final timer = Timer(signInTimeoutDuration, () async {
+      await cancelSignIn();
+    });
+
     TokenModel tokenModel;
     try {
       await httpServerDatasource.startServer();
@@ -34,7 +40,8 @@ class SignInRepository implements ISignInRepository {
       tokenModel = TokenModel.fromMap({
         'error': 'http_server_socket_exception',
         'status': 2,
-        'error_description': e.message
+        'error_description':
+            '${e.message} - OS-Error ${e.osError} - Address ${e.address} - Port ${e.port}'
       });
     } on HttpServerException catch (_) {
       tokenModel = TokenModel.fromMap({
@@ -49,6 +56,7 @@ class SignInRepository implements ISignInRepository {
         'error_description': 'Unknown error'
       });
     } finally {
+      timer.cancel();
       await httpServerDatasource.stopServer();
     }
     return tokenModel;
