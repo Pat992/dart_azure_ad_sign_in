@@ -2,10 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dart_azure_ad_sign_in/src/domain/entities/http_server_entity.dart';
+
 abstract class IHttpServerDatasource {
   Future<void> startServer();
   Future<void> stopServer();
-  Future<String> listenForRequest();
+  Future<HttpServerEntity> listenForRequest();
 }
 
 class HttpServerDatasource implements IHttpServerDatasource {
@@ -23,7 +25,7 @@ class HttpServerDatasource implements IHttpServerDatasource {
 
   // Todo: cancellation can be added here
   @override
-  Future<String> listenForRequest() async {
+  Future<HttpServerEntity> listenForRequest() async {
     final httpServerCompleter = Completer<String>();
 
     httpServerListener = httpServer.listen((request) async {
@@ -50,7 +52,13 @@ class HttpServerDatasource implements IHttpServerDatasource {
     });
 
     final code = await httpServerCompleter.future;
-    return code;
+
+    return HttpServerEntity(
+      code: code,
+      status: 0,
+      error: '',
+      errorDescription: '',
+    );
   }
 
   @override

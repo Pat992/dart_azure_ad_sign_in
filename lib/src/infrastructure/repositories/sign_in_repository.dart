@@ -43,11 +43,12 @@ class SignInRepository implements ISignInRepository {
 
     await httpServerDatasource.startServer();
 
-    final code = await httpServerDatasource.listenForRequest();
+    final serverModel = await httpServerDatasource.listenForRequest();
 
-    final tokenString = await azureApiDatasource.getToken(code: code);
+    final tokenModel =
+        await azureApiDatasource.getToken(code: serverModel.code);
 
-    token = TokenModel.fromMap(tokenString);
+    token = TokenModel.fromMap(tokenModel);
 
     //timeoutStreamSubscription.cancel();
 
