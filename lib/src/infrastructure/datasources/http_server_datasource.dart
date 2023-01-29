@@ -1,31 +1,94 @@
+// Copyright 2023 Patrick Hettich. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dart_azure_ad_sign_in/src/infrastructure/datasources/azure_api_datasource.dart';
 import 'package:dart_azure_ad_sign_in/src/infrastructure/exceptions/http_server_datasource_exceptions.dart';
 import 'package:dart_azure_ad_sign_in/src/infrastructure/models/http_server_model.dart';
 
+/// **Description:** Datasource Interface/Abstract class to create a local Http server.
 abstract class IHttpServerDatasource {
+  /// **Description:** Starts a local Http server
   Future<void> startServer();
+
+  /// **Description:** Stops the local Http server
   Future<void> stopServer();
+
+  /// **Description:** Listens for requests, either by Azure or by the [AzureApiDatasource] in case of a cancellation.
+  ///
+  /// **Parameter:** None.
+  ///
+  /// **Returns:** A [HttpServerModel], which will be used to check for errors,
+  /// or to receive the code to send to the Azure API.
   Future<HttpServerModel> listenForRequest();
+
+  /// **Description:** Creates a Map in case of success.
+  ///
+  /// **Parameter:** String body - The x-www-form-urlencoded request body.
+  ///
+  /// **Returns:** A Map with the values to create a [HttpServerModel].
   Map<String, dynamic> createSuccessResponse({required String body});
+
+  /// **Description:** Creates a Map in case of failure or cancellation.
+  ///
+  /// **Parameter:** String body - The x-www-form-urlencoded request body.
+  ///
+  /// **Returns:** A Map with the values to create a [HttpServerModel].
   Map<String, dynamic> createErrorOrCancellationResponse(
       {required String body});
 }
 
+/// **Description:** Class to create and control a local Http server.
 class HttpServerDatasource implements IHttpServerDatasource {
+  /// **Description:** Port of the Local HttpServer which will receive the code after sign in.
+  ///
+  /// **Default value:** 8080
   final int port;
+
+  /// **Description:** Response of the Local HttpServer, which the user will see after successfully logging in.
+  /// Can be simple Text or HTML.
+  ///
+  /// **Default value:** Sign In successful. This window can now be closed.
   final String serverSuccessResponse;
+
+  /// **Description:** Response of the Local HttpServer, which the user will see after sign in failure.
+  /// Can be simple Text or HTML.
+  ///
+  /// **Default value:** Sign In failed. Close this window and try again.
   final String serverErrorResponse;
+
   late HttpServer httpServer;
   late StreamSubscription httpServerListener;
+
+  /// **Description:** Value to split between items in the x-www-form-urlencoded string body.
+  ///
+  /// **Default value:** ['&'].
   final String formSplitter;
+
+  /// **Description:** Key of the code in the x-www-form-urlencoded string body.
+  ///
+  /// **Default value:** ['code='].
   final String formCode;
+
+  /// **Description:** Key of an error in the x-www-form-urlencoded string body.
+  ///
+  /// **Default value:** ['error='].
   final String formError;
+
+  /// **Description:** Key of an error description in the x-www-form-urlencoded string body.
+  ///
+  /// **Default value:** ['error_description='].
   final String formErrorDesc;
+
+  /// **Description:** Key of an error url in the x-www-form-urlencoded string body.
+  ///
+  /// **Default value:** ['error_uri='].
   final String formErrorUri;
 
+  /// **Description:** Creates a [HttpServerDatasource] Object
   HttpServerDatasource({
     required this.port,
     required this.serverSuccessResponse,
@@ -45,7 +108,7 @@ class HttpServerDatasource implements IHttpServerDatasource {
 
       if (body.contains(formCode)) {
         final mappedResponse = createSuccessResponse(body: body);
-
+        request.response.headers.contentType = ContentType.html;
         request.response.statusCode = 200;
         request.response.write(serverSuccessResponse);
         request.response.close();
@@ -53,7 +116,7 @@ class HttpServerDatasource implements IHttpServerDatasource {
         httpServerCompleter.complete(mappedResponse);
       } else if (body.contains(formError)) {
         final mappedResponse = createErrorOrCancellationResponse(body: body);
-
+        request.response.headers.contentType = ContentType.html;
         request.response.statusCode = 400;
         request.response.write(serverErrorResponse);
         request.response.close();
