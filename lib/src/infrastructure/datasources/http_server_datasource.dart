@@ -45,7 +45,7 @@ class HttpServerDatasource implements IHttpServerDatasource {
 
       if (body.contains(formCode)) {
         final mappedResponse = createSuccessResponse(body: body);
-
+        request.response.headers.contentType = ContentType.html;
         request.response.statusCode = 200;
         request.response.write(serverSuccessResponse);
         request.response.close();
@@ -53,7 +53,7 @@ class HttpServerDatasource implements IHttpServerDatasource {
         httpServerCompleter.complete(mappedResponse);
       } else if (body.contains(formError)) {
         final mappedResponse = createErrorOrCancellationResponse(body: body);
-
+        request.response.headers.contentType = ContentType.html;
         request.response.statusCode = 400;
         request.response.write(serverErrorResponse);
         request.response.close();
