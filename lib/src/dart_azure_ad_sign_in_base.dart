@@ -1,3 +1,6 @@
+// Copyright 2023 Patrick Hettich. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
 import 'package:dart_azure_ad_sign_in/src/domain/entities/token_entity.dart';
 import 'package:dart_azure_ad_sign_in/src/domain/repositories/i_sign_in_repository.dart';
 import 'package:dart_azure_ad_sign_in/src/infrastructure/datasources/azure_api_datasource.dart';
@@ -40,7 +43,7 @@ class AzureSignIn {
   /// **Default value:** Duration(minutes: 5).
   final Duration signInTimeoutDuration;
 
-  /// **Description:** Azure Auth URL used to Sign In, can not be modified.
+  /// **Description:** Azure Auth URL used to Sign In via Web, can not be modified.
   ///
   /// **Default value:** *https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize?client_id=$clientId&response_type=code&redirect_uri=http://localhost:$port&scope=https://management.core.windows.net//.default+offline_access+openid+profile&response_mode=form_post*
   final String authUri;
@@ -102,7 +105,7 @@ class AzureSignIn {
   ///
   /// **Returns:** A new Token-Object, check the [Token.status] to check for error or success.
   ///
-  /// **[Token.status]**
+  /// **Status codes:**
   ///
   /// 0: Success
   ///
@@ -123,7 +126,7 @@ class AzureSignIn {
   ///
   /// **Returns:** A new Token-Object, check the [Token.status] to check for error or success.
   ///
-  /// **[Token.status]**
+  /// **Status codes:**
   ///
   /// 0: Success
   ///

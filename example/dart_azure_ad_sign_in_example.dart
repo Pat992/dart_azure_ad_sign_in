@@ -3,9 +3,6 @@ import 'dart:async';
 import 'package:dart_azure_ad_sign_in/src/dart_azure_ad_sign_in_base.dart';
 import 'package:dart_azure_ad_sign_in/src/domain/entities/token_entity.dart';
 
-Token? token;
-late StreamSubscription<Token> signInSubscription;
-
 void main(List<String> args) async {
   // Create instance of Azure SignIn, all parameters are optional.
   final azureSignIn = AzureSignIn();
