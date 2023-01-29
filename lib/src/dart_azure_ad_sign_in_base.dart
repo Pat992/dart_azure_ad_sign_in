@@ -25,8 +25,9 @@ class AzureSignIn {
     this.port = 8080,
     this.serverTimeoutDuration = const Duration(minutes: 5),
     this.serverSuccessResponse =
-        'SignIn successful. This window can now be closed.',
-    this.serverErrorResponse = 'SignIn failed. Close this window and try again',
+        'Sign In successful. This window can now be closed.',
+    this.serverErrorResponse =
+        'Sign In failed. Close this window and try again',
     this.grantType = 'authorization_code',
   }) : authUri =
             'https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize?client_id=$clientId&response_type=code&redirect_uri=http://localhost:$port&scope=https://management.core.windows.net//.default+offline_access+openid+profile&response_mode=form_post' {

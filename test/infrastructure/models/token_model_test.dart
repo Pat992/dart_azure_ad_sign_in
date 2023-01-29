@@ -38,7 +38,7 @@ void main() {
     refreshToken: '',
     idToken: '',
     foci: '',
-    status: 0,
+    status: 1,
     error: 'invalid_request',
     errorDescription:
         "AADSTS900144: The request body must contain the following parameter: 'code'.\r\nTrace ID: f6b69ee5-b13c-4b38-b946-808a61e11eb3\r\nCorrelation ID: 92ab37e6-be6c-4c40-b3f1-38b50243c4bd\r\nTimestamp: 2023-01-24 16:03:14Z",

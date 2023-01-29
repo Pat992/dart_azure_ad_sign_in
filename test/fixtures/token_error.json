@@ -7,5 +7,6 @@
     "timestamp": "2023-01-24 16:03:14Z",
     "trace_id": "f6b69ee5-b13c-4b38-b946-808a61e11eb3",
     "correlation_id": "92ab37e6-be6c-4c40-b3f1-38b50243c4bd",
-    "error_uri": "https://login.microsoftonline.com/error?code=900144"
+    "error_uri": "https://login.microsoftonline.com/error?code=900144",
+    "status": 1
 }
