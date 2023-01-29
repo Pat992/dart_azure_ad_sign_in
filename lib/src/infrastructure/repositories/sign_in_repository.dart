@@ -1,3 +1,6 @@
+// Copyright 2023 Patrick Hettich. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
 import 'dart:async';
 
 import 'package:dart_azure_ad_sign_in/src/domain/entities/token_entity.dart';
@@ -7,7 +10,7 @@ import 'package:dart_azure_ad_sign_in/src/infrastructure/datasources/http_server
 import 'package:dart_azure_ad_sign_in/src/infrastructure/exceptions/http_server_datasource_exceptions.dart';
 import 'package:dart_azure_ad_sign_in/src/infrastructure/models/token_model.dart';
 
-// Todo: some more error handling
+/// **Description:** Class to sign in and refresh tokens.
 class SignInRepository implements ISignInRepository {
   final IAzureApiDatasource azureApiDatasource;
   final IHttpServerDatasource httpServerDatasource;

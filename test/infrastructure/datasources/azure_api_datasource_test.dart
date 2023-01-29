@@ -17,37 +17,41 @@ void main() {
     httpServer = await HttpServer.bind('localhost', 8000);
 
     httpServerListener = httpServer.listen((request) {
-      if (request.uri.queryParametersAll.containsKey('token_get_success')) {
-        final token = fixture('token_success.json');
-        request.response.statusCode = 200;
-        request.response.write(token);
-        request.response.close();
-      } else if (request.uri.queryParametersAll
-          .containsKey('token_get_failure')) {
-        final token = fixture('token_error.json');
-        request.response.statusCode = 400;
-        request.response.write(token);
-        request.response.close();
-      } else if (request.uri.queryParametersAll
-          .containsKey('token_get_wrong_uri')) {
-        request.response.statusCode = 404;
-        request.response.close();
-      } else if (request.uri.queryParametersAll
-          .containsKey('token_refresh_success')) {
-        final token = fixture('token_refresh.json');
-        request.response.statusCode = 200;
-        request.response.write(token);
-        request.response.close();
-      } else if (request.uri.queryParametersAll
-          .containsKey('token_refresh_failure')) {
-        final token = fixture('token_error.json');
-        request.response.statusCode = 400;
-        request.response.write(token);
-        request.response.close();
-      } else if (request.uri.queryParametersAll
-          .containsKey('token_refresh_wrong_uri')) {
-        request.response.statusCode = 404;
-        request.response.close();
+      try {
+        if (request.uri.queryParametersAll.containsKey('token_get_success')) {
+          final token = fixture('token_success.json');
+          request.response.statusCode = 200;
+          request.response.write(token);
+          request.response.close();
+        } else if (request.uri.queryParametersAll
+            .containsKey('token_get_failure')) {
+          final token = fixture('token_error.json');
+          request.response.statusCode = 400;
+          request.response.write(token);
+          request.response.close();
+        } else if (request.uri.queryParametersAll
+            .containsKey('token_get_wrong_uri')) {
+          request.response.statusCode = 404;
+          request.response.close();
+        } else if (request.uri.queryParametersAll
+            .containsKey('token_refresh_success')) {
+          final token = fixture('token_refresh.json');
+          request.response.statusCode = 200;
+          request.response.write(token);
+          request.response.close();
+        } else if (request.uri.queryParametersAll
+            .containsKey('token_refresh_failure')) {
+          final token = fixture('token_error.json');
+          request.response.statusCode = 400;
+          request.response.write(token);
+          request.response.close();
+        } else if (request.uri.queryParametersAll
+            .containsKey('token_refresh_wrong_uri')) {
+          request.response.statusCode = 404;
+          request.response.close();
+        }
+      } catch (e) {
+        print(e);
       }
     });
   });
@@ -203,8 +207,8 @@ void main() {
     });
   });
 
-  tearDown(() {
-    httpServerListener.cancel();
-    httpServer.close(force: true);
+  tearDown(() async {
+    await httpServerListener.cancel();
+    await httpServer.close(force: true);
   });
 }

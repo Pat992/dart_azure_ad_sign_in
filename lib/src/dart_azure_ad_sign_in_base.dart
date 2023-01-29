@@ -48,6 +48,10 @@ class AzureSignIn {
   /// **Default value:** *https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize?client_id=$clientId&response_type=code&redirect_uri=http://localhost:$port&scope=https://management.core.windows.net//.default+offline_access+openid+profile&response_mode=form_post*
   final String authUri;
 
+  /// **Description:** URI of the Azure API to get a token by code,
+  /// or to refresh an existing token.
+  ///
+  /// **Default value:** ['https://login.microsoftonline.com/organizations/oauth2/token'].
   final String _oauthUri =
       'https://login.microsoftonline.com/organizations/oauth2/token';
 
