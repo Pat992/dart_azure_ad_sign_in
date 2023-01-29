@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dart_azure_ad_sign_in/src/infrastructure/exceptions/http_server_datasource_exceptions.dart';
 import 'package:dart_azure_ad_sign_in/src/infrastructure/models/http_server_model.dart';
 
 abstract class IHttpServerDatasource {
@@ -128,7 +129,14 @@ class HttpServerDatasource implements IHttpServerDatasource {
 
   @override
   Future<void> startServer() async {
-    httpServer = await HttpServer.bind('localhost', port);
+    try {
+      httpServer = await HttpServer.bind('localhost', port);
+    } on SocketException catch (e) {
+      throw HttpServerSocketException(e.message,
+          address: e.address, osError: e.osError, port: e.port);
+    } catch (e) {
+      throw HttpServerException();
+    }
   }
 
   @override

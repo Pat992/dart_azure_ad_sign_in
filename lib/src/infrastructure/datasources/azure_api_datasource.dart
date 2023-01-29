@@ -54,8 +54,8 @@ class AzureApiDatasource implements IAzureApiDatasource {
 
       if (response.statusCode != 404) {
         final stringRes = await readResponse(response: response);
-        final stringMap = json.decode(stringRes);
-        return TokenModel.fromMap(stringMap);
+        final responseMap = json.decode(stringRes);
+        return TokenModel.fromMap(responseMap);
       } else {
         return TokenModel.fromMap({
           'error': 'not_found',
@@ -86,7 +86,6 @@ class AzureApiDatasource implements IAzureApiDatasource {
       final Map<String, dynamic> formMap = {
         'grant_type': 'refresh_token',
         'refresh_token': refreshToken,
-        'status': 1,
       };
 
       client = HttpClient();
@@ -102,8 +101,8 @@ class AzureApiDatasource implements IAzureApiDatasource {
 
       if (response.statusCode != 404) {
         final stringRes = await readResponse(response: response);
-        final stringMap = json.decode(stringRes);
-        return stringMap;
+        final responseMap = json.decode(stringRes);
+        return TokenModel.fromMap(responseMap);
       } else {
         return TokenModel.fromMap({
           'error': 'not_found',

@@ -9,13 +9,13 @@ class AzureSignIn {
   final String clientId;
   final String grantType;
   final int port;
-  final Duration serverTimeoutDuration;
   final String serverSuccessResponse;
   final String serverErrorResponse;
-
   final String authUri;
+
   final String _oauthUri =
       'https://login.microsoftonline.com/organizations/oauth2/token';
+
   late final ISignInRepository _signInRepository;
   late final IAzureApiDatasource _azureApiDatasource;
   late final IHttpServerDatasource _httpServerDatasource;
@@ -23,7 +23,6 @@ class AzureSignIn {
   AzureSignIn({
     this.clientId = '04b07795-8ddb-461a-bbee-02f9e1bf7b46',
     this.port = 8080,
-    this.serverTimeoutDuration = const Duration(minutes: 5),
     this.serverSuccessResponse =
         'Sign In successful. This window can now be closed.',
     this.serverErrorResponse =
@@ -44,8 +43,8 @@ class AzureSignIn {
     return await _signInRepository.refreshToken(token: token);
   }
 
-  void cancelSignIn() {
-    _signInRepository.cancelSignIn();
+  Future<void> cancelSignIn() async {
+    await _signInRepository.cancelSignIn();
   }
 
   void _initAzureApiDatasource() {
@@ -67,13 +66,6 @@ class AzureSignIn {
 
   void _initSignInRepository() {
     _signInRepository = SignInRepository(
-      port: port,
-      clientId: clientId,
-      grantType: grantType,
-      oauthUri: _oauthUri,
-      serverSuccessResponse: serverSuccessResponse,
-      serverErrorResponse: serverErrorResponse,
-      serverTimeoutDuration: serverTimeoutDuration,
       azureApiDatasource: _azureApiDatasource,
       httpServerDatasource: _httpServerDatasource,
     );
