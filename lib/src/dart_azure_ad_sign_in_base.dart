@@ -57,7 +57,7 @@ class AzureSignIn {
   /// **Default value:** Duration(minutes: 5).
   Duration signInTimeoutDuration;
 
-  /// **Description:** Azure Auth URL used to Sign out via Web, cannot be modified.
+  /// **Description:** Azure Auth URL used to Sign out from the Browser, cannot be modified.
   ///
   /// **Default value:**https://login.microsoftonline.com/common/oauth2/v2.0/logout**
   final String signOutUri =
@@ -82,7 +82,7 @@ class AzureSignIn {
   ///
   /// [Default value (az cli):] '04b07795-8ddb-461a-bbee-02f9e1bf7b46'
   ///
-  /// **scope:** The Application (client) ID that the Azure portal – App registrations page assigned to your app.
+  /// **scope:** A space-separated list of scopes that you want the user to consent to.
   ///
   /// [Type:] List<String> *optional*
   ///
@@ -94,7 +94,7 @@ class AzureSignIn {
   ///
   /// [Default value:] 5000
   ///
-  /// **serverSuccessResponse:** Response of the Local HttpServer, which the user will see after successfully logging in.
+  /// **serverSuccessResponse:** Response of the Local HttpServer, which the user will see after successful sign in.
   /// Can be a Simple Text-String or a HTTP-String
   ///
   /// [Type:] String *optional*
@@ -108,7 +108,7 @@ class AzureSignIn {
   ///
   /// [Default value:] 'Sign In failed. Close this window and try again'
   ///
-  /// **signInTimeoutDuration:** Duration on how long the local HttpServer waits, for the user to sign in.
+  /// **signInTimeoutDuration:** Duration on how long the local HttpServer waits, for the user to sign in before creating a cancelled-token and closing.
   /// Returns a new Token with the status 3 for a cancellation.
   ///
   /// [Type:] Duration *optional*
@@ -126,7 +126,7 @@ class AzureSignIn {
     this.serverSuccessResponse =
         'Sign In successful. This window can now be closed.',
     this.serverErrorResponse =
-        'Sign In failed. Close this window and try again',
+        'Sign In failed. Close this window and try again.',
     this.signInTimeoutDuration = const Duration(minutes: 5),
   }) {
     _initAzureApiDatasource();
@@ -192,10 +192,10 @@ class AzureSignIn {
     await _signInRepository.cancelSignIn(port: port);
   }
 
-  /// **Description:** Azure Auth URL used to Sign In via Web, cannot be modified.
+  /// **Description:** Microsoft Sign-In URL used to Sign In via Browser, cannot be modified.
   ///
   /// **Default value:** *https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize?client_id=$clientId&response_type=code&redirect_uri=http://localhost:$port&scope=$scopeString&response_mode=form_post*
-  get signInUri {
+  String get signInUri {
     final scopeString = scope.join('+');
     return 'https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize?client_id=$clientId&response_type=code&redirect_uri=http://localhost:$port&scope=$scopeString&response_mode=form_post';
   }

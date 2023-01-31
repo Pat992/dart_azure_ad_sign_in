@@ -1,8 +1,8 @@
 // Copyright 2023 Patrick Hettich. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
-import 'package:dart_azure_ad_sign_in/src/dart_azure_ad_sign_in_base.dart';
-import 'package:dart_azure_ad_sign_in/src/domain/entities/token_entity.dart';
+
+import 'package:dart_azure_ad_sign_in/dart_azure_ad_sign_in.dart';
 
 void main(List<String> args) async {
   // Create instance of Azure SignIn, all parameters are optional.
@@ -11,8 +11,8 @@ void main(List<String> args) async {
   // Print the SignIn URL.
   print(azureSignIn.signInUri);
 
-  // Let the user to open the URL and signing in
-  // can also b cancelled with azureSignIn.cancelSignIn();
+  // Opens the HTTP-Server and waits for the user to sign-in.
+  // can also be cancelled with azureSignIn.cancelSignIn();
   Token token = await azureSignIn.signIn();
 
   // Print the token information
