@@ -80,28 +80,20 @@ void main() {
 
   setUp(() async {
     azureApiDatasource = AzureApiDatasource(
-      port: 5050,
-      clientId: '04b07795-8ddb-461a-bbee-02f9e1bf7b46',
       grantType: 'authorization_code',
       oauthUri: 'http://localhost:5000',
     );
 
-    httpServerDatasource = HttpServerDatasource(
-      port: 5050,
-      serverSuccessResponse: 'success',
-      serverErrorResponse: 'error',
-    );
+    httpServerDatasource = HttpServerDatasource();
 
     signInRepository = SignInRepository(
       azureApiDatasource: azureApiDatasource,
       httpServerDatasource: httpServerDatasource,
-      signInTimeoutDuration: Duration(minutes: 5),
     );
 
     signInRepositoryTimeoutError = SignInRepository(
       azureApiDatasource: azureApiDatasource,
       httpServerDatasource: httpServerDatasource,
-      signInTimeoutDuration: Duration(seconds: 2),
     );
 
     client = HttpClient();
@@ -140,7 +132,13 @@ void main() {
       // arrange
       final formBytes = createFormData(formMap: successBody);
       // act
-      final tokenFuture = signInRepository.signIn();
+      final tokenFuture = signInRepository.signIn(
+        clientId: '04b07795-8ddb-461a-bbee-02f9e1bf7b46',
+        port: 5050,
+        serverSuccessResponse: 'success',
+        serverErrorResponse: 'error',
+        signInTimeoutDuration: Duration(minutes: 5),
+      );
       final request = await createRequest(formBytes: formBytes);
       final response = await request.close();
       // assert
@@ -155,7 +153,13 @@ void main() {
       // arrange
       final formBytes = createFormData(formMap: errorBody);
       // act
-      final tokenFuture = signInRepository.signIn();
+      final tokenFuture = signInRepository.signIn(
+        clientId: '04b07795-8ddb-461a-bbee-02f9e1bf7b46',
+        port: 5050,
+        serverSuccessResponse: 'success',
+        serverErrorResponse: 'error',
+        signInTimeoutDuration: Duration(minutes: 5),
+      );
       final request = await createRequest(formBytes: formBytes);
       final response = await request.close();
       // assert
@@ -171,7 +175,13 @@ void main() {
       // arrange
       final formBytes = createFormData(formMap: errorBody);
       // act
-      final tokenFuture = signInRepository.signIn();
+      final tokenFuture = signInRepository.signIn(
+        clientId: '04b07795-8ddb-461a-bbee-02f9e1bf7b46',
+        port: 5050,
+        serverSuccessResponse: 'success',
+        serverErrorResponse: 'error',
+        signInTimeoutDuration: Duration(minutes: 5),
+      );
       final request = await createRequest(formBytes: formBytes);
       final response = await request.close();
       // assert
@@ -187,7 +197,13 @@ void main() {
         () async {
       // arrange
       // act
-      final tokenFuture = signInRepositoryTimeoutError.signIn();
+      final tokenFuture = signInRepositoryTimeoutError.signIn(
+        clientId: '04b07795-8ddb-461a-bbee-02f9e1bf7b46',
+        port: 5050,
+        serverSuccessResponse: 'success',
+        serverErrorResponse: 'error',
+        signInTimeoutDuration: Duration(seconds: 2),
+      );
       // assert
       tokenFuture.then((tokenResult) {
         expect((tokenResult as TokenModel).toMap(), cancellationResponse);

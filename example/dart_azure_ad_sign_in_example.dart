@@ -9,7 +9,7 @@ void main(List<String> args) async {
   final azureSignIn = AzureSignIn();
 
   // Print the SignIn URL.
-  print(azureSignIn.authUri);
+  print(azureSignIn.signInUri);
 
   // Let the user to open the URL and signing in
   // can also b cancelled with azureSignIn.cancelSignIn();

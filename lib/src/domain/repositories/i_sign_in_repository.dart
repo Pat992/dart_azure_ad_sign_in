@@ -8,10 +8,20 @@ import 'package:dart_azure_ad_sign_in/src/domain/entities/token_entity.dart';
 abstract class ISignInRepository {
   /// **Description:** Signs in the user, by using the [HttpServerDatasource] and [AzureApiDatasource].
   ///
-  /// **Parameter:** None.
+  /// **Parameter:** String clientId - The Application (client) ID
+  /// int port - Port of the local http server,
+  /// String serverSuccessResponse - http server response if sign in successful,
+  /// String serverErrorResponse - http server response if sign in failed,
+  /// Duration signInTimeoutDuration - Duration on how long the local HttpServer waits for sign in
   ///
-  /// **Returns:** A newly created [Token],
-  Future<Token> signIn();
+  /// **Returns:** A newly created [Token].
+  Future<Token> signIn({
+    required String clientId,
+    required int port,
+    required String serverSuccessResponse,
+    required String serverErrorResponse,
+    required Duration signInTimeoutDuration,
+  });
 
   /// **Description:** Refreshes an existing token, by using the[AzureApiDatasource].
   ///
@@ -19,5 +29,12 @@ abstract class ISignInRepository {
   ///
   /// **Returns:** The given [Token] with updates from Azure, will be used for updating a token.
   Future<Token> refreshToken({required Token token});
-  Future<void> cancelSignIn();
+
+  /// **Description:** Cancel an open Sign In, will also automatically called once [AzureSignIn.signInTimeoutDuration] is reached.
+  /// Sends a request for cancelling to the local HttpServer, which then will return a new [Token]
+  ///
+  /// **Parameter:** int port - Port of the local http server
+  ///
+  /// **Returns:** Future<void>
+  Future<void> cancelSignIn({required int port});
 }

@@ -78,15 +78,9 @@ void main() {
   }
 
   setUp(() async {
-    httpServerDatasource = HttpServerDatasource(
-      port: 8080,
-      serverSuccessResponse: 'success',
-      serverErrorResponse: 'error',
-    );
+    httpServerDatasource = HttpServerDatasource();
 
     azureApiDatasource = AzureApiDatasource(
-      port: 8080,
-      clientId: '123456789',
       grantType: 'authorization_code',
       oauthUri: 'https://test.com',
     );
@@ -97,8 +91,11 @@ void main() {
     // arrange
     final formBytes = createFormData(formMap: successBody);
     // act
-    await httpServerDatasource.startServer();
-    final serverResultFuture = httpServerDatasource.listenForRequest();
+    await httpServerDatasource.startServer(port: 8080);
+    final serverResultFuture = httpServerDatasource.listenForRequest(
+      serverSuccessResponse: 'success',
+      serverErrorResponse: 'error',
+    );
     final request = await createRequest(formBytes: formBytes);
     final response = await request.close();
     final stringRes = await readResponse(response: response);
@@ -116,8 +113,11 @@ void main() {
     // arrange
     final formBytes = createFormData(formMap: errorBody);
     // act
-    await httpServerDatasource.startServer();
-    final serverResultFuture = httpServerDatasource.listenForRequest();
+    await httpServerDatasource.startServer(port: 8080);
+    final serverResultFuture = httpServerDatasource.listenForRequest(
+      serverSuccessResponse: 'success',
+      serverErrorResponse: 'error',
+    );
     final request = await createRequest(formBytes: formBytes);
     final response = await request.close();
     final stringRes = await readResponse(response: response);
@@ -134,9 +134,12 @@ void main() {
   test('Get cancellation body if sign in has been cancelled', () async {
     // arrange
     // act
-    await httpServerDatasource.startServer();
-    final serverResultFuture = httpServerDatasource.listenForRequest();
-    await azureApiDatasource.cancelGetToken();
+    await httpServerDatasource.startServer(port: 8080);
+    final serverResultFuture = httpServerDatasource.listenForRequest(
+      serverSuccessResponse: 'success',
+      serverErrorResponse: 'error',
+    );
+    await azureApiDatasource.cancelGetToken(port: 8080);
     await httpServerDatasource.stopServer();
     // assert
     serverResultFuture.then((serverResult) {

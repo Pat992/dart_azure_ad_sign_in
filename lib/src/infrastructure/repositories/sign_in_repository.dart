@@ -14,28 +14,39 @@ import 'package:dart_azure_ad_sign_in/src/infrastructure/models/token_model.dart
 class SignInRepository implements ISignInRepository {
   final IAzureApiDatasource azureApiDatasource;
   final IHttpServerDatasource httpServerDatasource;
-  final Duration signInTimeoutDuration;
 
   SignInRepository({
     required this.azureApiDatasource,
     required this.httpServerDatasource,
-    required this.signInTimeoutDuration,
   });
 
   @override
-  Future<Token> signIn() async {
+  Future<Token> signIn({
+    required String clientId,
+    required int port,
+    required String serverSuccessResponse,
+    required String serverErrorResponse,
+    required Duration signInTimeoutDuration,
+  }) async {
     final timer = Timer(signInTimeoutDuration, () async {
-      await cancelSignIn();
+      await cancelSignIn(port: port);
     });
 
     TokenModel tokenModel;
     try {
-      await httpServerDatasource.startServer();
+      await httpServerDatasource.startServer(port: port);
 
-      final serverModel = await httpServerDatasource.listenForRequest();
+      final serverModel = await httpServerDatasource.listenForRequest(
+        serverSuccessResponse: serverSuccessResponse,
+        serverErrorResponse: serverErrorResponse,
+      );
 
       if (serverModel.code.isNotEmpty) {
-        tokenModel = await azureApiDatasource.getToken(code: serverModel.code);
+        tokenModel = await azureApiDatasource.getToken(
+          clientId: clientId,
+          code: serverModel.code,
+          port: port,
+        );
       } else {
         tokenModel = TokenModel.fromMap(serverModel.toMap());
       }
@@ -83,7 +94,7 @@ class SignInRepository implements ISignInRepository {
   }
 
   @override
-  Future<void> cancelSignIn() async {
-    await azureApiDatasource.cancelGetToken();
+  Future<void> cancelSignIn({required int port}) async {
+    await azureApiDatasource.cancelGetToken(port: port);
   }
 }

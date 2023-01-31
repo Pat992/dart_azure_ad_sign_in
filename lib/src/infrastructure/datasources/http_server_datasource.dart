@@ -12,18 +12,28 @@ import 'package:dart_azure_ad_sign_in/src/infrastructure/models/http_server_mode
 /// **Description:** Datasource Interface/Abstract class to create a local Http server.
 abstract class IHttpServerDatasource {
   /// **Description:** Starts a local Http server
-  Future<void> startServer();
+  ///
+  /// **Parameter:** int port
+  ///
+  /// **Returns:** Future<void>
+  Future<void> startServer({required int port});
 
   /// **Description:** Stops the local Http server
+  ///
+  /// **Parameter:** None
+  ///
+  /// **Returns:** Future<void>
   Future<void> stopServer();
 
   /// **Description:** Listens for requests, either by Azure or by the [AzureApiDatasource] in case of a cancellation.
   ///
-  /// **Parameter:** None.
+  /// **Parameter:** String serverSuccessResponse, String serverErrorResponse
   ///
   /// **Returns:** A [HttpServerModel], which will be used to check for errors,
   /// or to receive the code to send to the Azure API.
-  Future<HttpServerModel> listenForRequest();
+  Future<HttpServerModel> listenForRequest(
+      {required String serverSuccessResponse,
+      required String serverErrorResponse});
 
   /// **Description:** Creates a Map in case of success.
   ///
@@ -43,23 +53,6 @@ abstract class IHttpServerDatasource {
 
 /// **Description:** Class to create and control a local Http server.
 class HttpServerDatasource implements IHttpServerDatasource {
-  /// **Description:** Port of the Local HttpServer which will receive the code after sign in.
-  ///
-  /// **Default value:** 8080
-  final int port;
-
-  /// **Description:** Response of the Local HttpServer, which the user will see after successfully logging in.
-  /// Can be simple Text or HTML.
-  ///
-  /// **Default value:** Sign In successful. This window can now be closed.
-  final String serverSuccessResponse;
-
-  /// **Description:** Response of the Local HttpServer, which the user will see after sign in failure.
-  /// Can be simple Text or HTML.
-  ///
-  /// **Default value:** Sign In failed. Close this window and try again.
-  final String serverErrorResponse;
-
   late HttpServer httpServer;
   late StreamSubscription httpServerListener;
 
@@ -90,9 +83,6 @@ class HttpServerDatasource implements IHttpServerDatasource {
 
   /// **Description:** Creates a [HttpServerDatasource] Object
   HttpServerDatasource({
-    required this.port,
-    required this.serverSuccessResponse,
-    required this.serverErrorResponse,
     this.formSplitter = '&',
     this.formCode = 'code=',
     this.formError = 'error=',
@@ -101,7 +91,10 @@ class HttpServerDatasource implements IHttpServerDatasource {
   });
 
   @override
-  Future<HttpServerModel> listenForRequest() async {
+  Future<HttpServerModel> listenForRequest({
+    required String serverSuccessResponse,
+    required String serverErrorResponse,
+}) async {
     final httpServerCompleter = Completer<Map<String, dynamic>>();
     httpServerListener = httpServer.listen((request) async {
       final body = await utf8.decodeStream(request);
@@ -191,7 +184,7 @@ class HttpServerDatasource implements IHttpServerDatasource {
   }
 
   @override
-  Future<void> startServer() async {
+  Future<void> startServer({required int port}) async {
     try {
       httpServer = await HttpServer.bind('localhost', port, shared: true);
     } on SocketException catch (e) {
