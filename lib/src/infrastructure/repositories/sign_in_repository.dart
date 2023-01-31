@@ -77,8 +77,27 @@ class SignInRepository implements ISignInRepository {
   }
 
   @override
-  Future<Token> refreshToken({required Token token}) async {
-    final tokenModel = token as TokenModel;
+  Future<Token> refreshToken({Token? token, refreshToken = ''}) async {
+    TokenModel tokenModel;
+    if ((token == null && refreshToken == '')) {
+      return TokenModel.fromMap({
+        'status': 1,
+        'error': 'refresh_token_missing',
+        'error_description': 'No refresh token or Token object given.',
+      });
+    } else if (token!.refreshToken.isEmpty) {
+      return TokenModel.fromMap({
+        'status': 1,
+        'error': 'refresh_token_missing',
+        'error_description': 'Token object does not contain refresh-token.',
+      });
+    } else if (token.refreshToken.isNotEmpty) {
+      tokenModel = token as TokenModel;
+    } else {
+      tokenModel = TokenModel.fromMap({
+        'refresh_token': refreshToken,
+      });
+    }
 
     final refreshedToken =
         await azureApiDatasource.refreshToken(refreshToken: token.refreshToken);

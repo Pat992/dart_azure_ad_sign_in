@@ -25,10 +25,11 @@ abstract class ISignInRepository {
 
   /// **Description:** Refreshes an existing token, by using the[AzureApiDatasource].
   ///
-  /// **Parameter:** [Token] - Existing token, uses its refreshToken value.
+  /// **Parameter:** either use [Token] - Existing token, uses its refreshToken value,
+  /// refreshToken - the refresh token if token is not accessible
   ///
   /// **Returns:** The given [Token] with updates from Azure, will be used for updating a token.
-  Future<Token> refreshToken({required Token token});
+  Future<Token> refreshToken({Token? token, refreshToken = ''});
 
   /// **Description:** Cancel an open Sign In, will also automatically called once [AzureSignIn.signInTimeoutDuration] is reached.
   /// Sends a request for cancelling to the local HttpServer, which then will return a new [Token]

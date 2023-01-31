@@ -165,7 +165,8 @@ class AzureSignIn {
   /// Sends the Refresh Token to the Azure API to receive a new one.
   /// Open the [AzureSignIn.authUri] in a Browser to Sign In.
   ///
-  /// **Parameter:** [Token]
+  /// **Parameter:** either use [Token] - Existing token, uses its refreshToken value,
+  /// refreshToken - the refresh token if the token object is not accessible.
   ///
   /// **Returns:** A new Token-Object, check the [Token.status] to check for error or success.
   ///
@@ -174,8 +175,11 @@ class AzureSignIn {
   /// 0: Success
   ///
   /// 1: Azure API error
-  Future<Token> refreshToken({required Token token}) async {
-    return await _signInRepository.refreshToken(token: token);
+  Future<Token> refreshToken({Token? token, String refreshToken = ''}) async {
+    return await _signInRepository.refreshToken(
+      token: token,
+      refreshToken: refreshToken,
+    );
   }
 
   /// **Description:** Cancel an open Sign In, will also automatically called once [AzureSignIn.signInTimeoutDuration] is reached.

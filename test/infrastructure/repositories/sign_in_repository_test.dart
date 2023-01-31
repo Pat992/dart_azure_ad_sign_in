@@ -225,6 +225,36 @@ void main() {
         expect(tokenResult, isA<Token>());
       });
     });
+
+    test(
+        'Get valid Token with error if no token object or refresh token is given',
+        () async {
+      // arrange
+      final token = TokenModel.fromMap(
+          json.decode(fixture('token_not_given_error.json')));
+      // act
+      final tokenFuture = signInRepository.refreshToken();
+      // assert
+      tokenFuture.then((tokenResult) {
+        expect((tokenResult as TokenModel).toMap(), token.toMap());
+        expect(tokenResult, isA<Token>());
+      });
+    });
+
+    test(
+        'Get valid Token with error if token object does not contain a refresh token',
+        () async {
+      // arrange
+      final token = TokenModel.fromMap(
+          json.decode(fixture('token_no_ref_token_error.json')));
+      // act
+      final tokenFuture = signInRepository.refreshToken(token: token);
+      // assert
+      tokenFuture.then((tokenResult) {
+        expect((tokenResult as TokenModel).toMap(), token.toMap());
+        expect(tokenResult, isA<Token>());
+      });
+    });
   });
 
   tearDown(() {
