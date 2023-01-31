@@ -42,6 +42,9 @@ void main() {
     'status': 3,
     'error_uri': ''
   };
+  final refreshBody = {
+    'refresh_token': 'test',
+  };
   final serverUrl = 'http://localhost:5000';
   IAzureApiDatasource azureApiDatasource;
   IHttpServerDatasource httpServerDatasource;
@@ -215,11 +218,15 @@ void main() {
   group('refreshToken function', () {
     test('Get valid Token if refresh has been successful', () async {
       // arrange
+      final formBytes = createFormData(formMap: refreshBody);
       final token =
           TokenModel.fromMap(json.decode(fixture('token_refresh.json')));
       // act
       final tokenFuture = signInRepository.refreshToken(token: token);
+      final request = await createRequest(formBytes: formBytes);
+      final response = await request.close();
       // assert
+      expect(response.statusCode, 200);
       tokenFuture.then((tokenResult) {
         expect((tokenResult as TokenModel).toMap(), token.toMap());
         expect(tokenResult, isA<Token>());
