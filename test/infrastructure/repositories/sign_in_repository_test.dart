@@ -216,7 +216,7 @@ void main() {
     test('Get valid Token if refresh has been successful', () async {
       // arrange
       final token =
-          TokenModel.fromMap(json.decode(fixture('token_success.json')));
+          TokenModel.fromMap(json.decode(fixture('token_refresh.json')));
       // act
       final tokenFuture = signInRepository.refreshToken(token: token);
       // assert
