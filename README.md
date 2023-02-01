@@ -2,10 +2,10 @@
 </p>
 <p align="center">
 <a href="https://pub.dev/packages/dart_azure_ad_sign_in"><img src="https://img.shields.io/pub/v/dart_azure_ad_sign_in.svg" alt="Pub"></a>
-<a href="https://circleci.com/Pat992/dart_azure_ad_sign_in/tree/master">
-        <img src="https://img.shields.io/circleci/project/github/dart_azure_ad_sign_in/master" alt="build status"></a>
+<a href="https://github.com/Pat992/dart_azure_ad_sign_in/tree/main">
+        <img src="https://img.shields.io/github/actions/workflow/status/Pat992/dart_azure_ad_sign_in/Dart+Tests+?branch=main" alt="build status">
 <a href="https://github.com/Pat992/dart_azure_ad_sign_in"><img src="https://img.shields.io/github/stars/Pat992/dart_azure_ad_sign_in.svg?style=flat&logo=github&colorB=deeppink&label=stars" alt="Star on Github"></a>
-<a href="https://opensource.org/licenses/BSD 3-Clause"><img src="https://img.shields.io/badge/license-BSD 3-Clause-purple.svg" alt="License: BSD 3-Clause"></a>
+<a href="https://opensource.org/licenses/BSD-3-Clause"><img src="https://img.shields.io/static/v1?label=license&message=BSD 3-Clause&color=yellow" alt="License: BSD 3-Clause"></a>
 </p>
 
 ## 1. Platform Support
