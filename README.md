@@ -8,15 +8,15 @@
 <a href="https://opensource.org/licenses/BSD-3-Clause"><img src="https://img.shields.io/static/v1?label=license&message=BSD 3-Clause&color=yellow" alt="License: BSD 3-Clause"></a>
 </div>
 
-* [1. Platform Support](#platform-support)
-* [2. Features](#2.-Features)
-* [3. Authentication Flow](#3.-Authentication-Flow)
-* [4. Getting started](#4.-Getting-started)
-* [5. Usage](#5.-Usage)
+* [1. Platform Support](#1-Platform-Support)
+* [2. Features](#2-Features)
+* [3. Authentication Flow](#3-Authentication-Flow)
+* [4. Getting started](#4-Getting-started)
+* [5. Usage](#5-Usage)
 * [6. Where to go from here](#6-Where-to-go-from-here)
 [[_TOC_]]
 
-## 1. Platform Support <a name="platform-support"/>
+## 1. Platform Support
 | | Dart | Flutter | Dart - Tested on | Flutter - Tested on |
 | ----------- | ----------- | ----------- | ----------- | ----------- |
 | Android | :heavy_multiplication_x: | :heavy_check_mark: | - | Tested on Pixel 4 (Emulator) and Xiaomi P9. |
