@@ -55,12 +55,12 @@ class Token {
   /// **Example:** '[eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIs...]'
   final String idToken;
 
-  /// **Description:** Signs in to a second Microsoft Office app while they have a session on a mobile device using FOCI (Family of Client IDs).
+  /// **Description:** Access to Microsoft Office apps while they have a session on a mobile device using FOCI (Family of Client IDs).
   ///
   /// **Example:** '[1]'
   final String foci;
 
-  /// **Description:** Status of the Token authorization code flow:
+  /// **Description:** Status of the Token authorization code flow result:
   ///
   /// **Status codes:**
   ///
