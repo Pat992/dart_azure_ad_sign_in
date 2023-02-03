@@ -1,7 +1,11 @@
-## 1.0.0
+## 1.0.0+1
 
-- Initial version.
+- Replaced long row tables with HTML, as pub.dev is not supporting it
 
 ## 1.0.0+1
 
 - Replaced mermaid diagram in README.md with image
+
+## 1.0.0
+
+- Initial version.

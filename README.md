@@ -270,38 +270,197 @@ Or if the `Token` is not available anymore the refresh token can be sent as a St
 
 ### 5.5 AzureSignIn Variables
 Some class variables can be modified while running, some others are read-only.
-| Name                                | Type           | Default value                                                                                                                                                                                                           | Can be modified          | Description                                                                                                                                                                                                                                                                                                                        |
-| ----------------------------------- | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `azureSignIn.clientId`              | String         | 04b07795-8ddb-461a-bbee-02f9e1bf7b46                                                                                                                                                                                    | :heavy_check_mark:       | The Application (client) ID that the Azure portal – App registrations page assigned to your app. Uses the **[az cli](https://learn.microsoft.com/en-us/cli/azure/)** client ID by default, no app registration is necessary.                                                                                                       |
-| `azureSignIn.scope`                 | List\<String\> | [<br />'https://management.core.windows.net//.default',<br />'offline_access',<br />'openid',<br />'profile'<br />]                                                                                                     | :heavy_check_mark:       | A space-separated list of scopes that you want the user to consent to. For the /authorize leg of the request, this parameter can cover multiple resources. This value allows your app to get consent for multiple web APIs you want to call. Uses the **[az cli](https://learn.microsoft.com/en-us/cli/azure/)** Scopes by default |
-| `azureSignIn.grantType`             | String         | authorization_code                                                                                                                                                                                                      | :heavy_multiplication_x: | Grant Type for the authorization flow. Must be **authorization_code** for the authorization code flow.                                                                                                                                                                                                                             |
-| `azureSignIn.port`                  | int            | 5000                                                                                                                                                                                                                    | :heavy_check_mark:       | Port of the Local `HttpServer` which will receive the code after sign-in via a web browser.                                                                                                                                                                                                                                        |
-| `azureSignIn.signInTimeoutDuration` | Duration()     | `Duration(minutes: 5)`                                                                                                                                                                                                  | :heavy_check_mark:       | Duration on how long the local `HttpServer` waits, for the user to sign in, before closing.                                                                                                                                                                                                                                        |
-| `azureSignIn.serverSuccessResponse` | String         | Sign In successful. This window can now be closed.                                                                                                                                                                      | :heavy_check_mark:       | Response of the Local HttpServer, which the user will see after successfully logging in, can be simple Text or HTML.                                                                                                                                                                                                               |
-| `azureSignIn.serverErrorResponse`   | String         | Sign In failed. Close this window and try again.                                                                                                                                                                        | :heavy_check_mark:       | Response of the Local HttpServer, which the user will see after sign-in failure, can be simple Text or HTML.                                                                                                                                                                                                                       |
-| `azureSignIn.signInUri`             | String         | https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize<br />?client_id=[CLIENT_ID]<br />&response_type=code<br />&redirect_uri=http://localhost:[PORT]<br />&scope=[SCOPE]<br />&response_mode=form_post | :heavy_multiplication_x: | Getter for the Microsoft Sign-In URL used to Sign In via Browser. Combines `azureSignIn.clientId`, `azureSignIn.port` and `azureSignIn.scope`, which can not be directly modified.                                                                                                                                                 |
-| `azureSignIn.signOutUri`            | String         | https://login.microsoftonline.com/common/oauth2/v2.0/logout                                                                                                                                                             | :heavy_multiplication_x: | Azure Auth URL used to Sign out from the Browser.                                                                                                                                                                                                                                                                                  |
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Default value</th>
+<th>Can be modified</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>azureSignIn.clientId</code></td>
+<td>String</td>
+<td>04b07795-8ddb-461a-bbee-02f9e1bf7b46</td>
+<td>&check;</td>
+<td>The Application (client) ID that the Azure portal – App registrations page assigned to your app. Uses the <strong><a href="https://learn.microsoft.com/en-us/cli/azure/">az cli</a></strong> client ID by default, no app registration is necessary.</td>
+</tr>
+<tr>
+<td><code>azureSignIn.scope</code></td>
+<td>List\<String\></td>
+<td>[<br />&#39;<a href="https://management.core.windows.net//.default">https://management.core.windows.net//.default</a>&#39;,<br />&#39;offline_access&#39;,<br />&#39;openid&#39;,<br />&#39;profile&#39;<br />]</td>
+<td>&check;</td>
+<td>A space-separated list of scopes that you want the user to consent to. For the /authorize leg of the request, this parameter can cover multiple resources. This value allows your app to get consent for multiple web APIs you want to call. Uses the <strong><a href="https://learn.microsoft.com/en-us/cli/azure/">az cli</a></strong> Scopes by default</td>
+</tr>
+<tr>
+<td><code>azureSignIn.grantType</code></td>
+<td>String</td>
+<td>authorization_code</td>
+<td>&cross;</td>
+<td>Grant Type for the authorization flow. Must be <strong>authorization_code</strong> for the authorization code flow.</td>
+</tr>
+<tr>
+<td><code>azureSignIn.port</code></td>
+<td>int</td>
+<td>5000</td>
+<td>&check;</td>
+<td>Port of the Local <code>HttpServer</code> which will receive the code after sign-in via a web browser.</td>
+</tr>
+<tr>
+<td><code>azureSignIn.signInTimeoutDuration</code></td>
+<td>Duration()</td>
+<td><code>Duration(minutes: 5)</code></td>
+<td>&check;</td>
+<td>Duration on how long the local <code>HttpServer</code> waits, for the user to sign in, before closing.</td>
+</tr>
+<tr>
+<td><code>azureSignIn.serverSuccessResponse</code></td>
+<td>String</td>
+<td>Sign In successful. This window can now be closed.</td>
+<td>&check;</td>
+<td>Response of the Local HttpServer, which the user will see after successfully logging in, can be simple Text or HTML.</td>
+</tr>
+<tr>
+<td><code>azureSignIn.serverErrorResponse</code></td>
+<td>String</td>
+<td>Sign In failed. Close this window and try again.</td>
+<td>&check;</td>
+<td>Response of the Local HttpServer, which the user will see after sign-in failure, can be simple Text or HTML.</td>
+</tr>
+<tr>
+<td><code>azureSignIn.signInUri</code></td>
+<td>String</td>
+<td><a href="https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize">https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize</a><br />?client_id=[CLIENT_ID]<br />&amp;response_type=code<br />&amp;redirect_uri=<a href="http://localhost:[PORT">http://localhost:[PORT</a>]<br />&amp;scope=[SCOPE]<br />&amp;response_mode=form_post</td>
+<td>&cross;</td>
+<td>Getter for the Microsoft Sign-In URL used to Sign In via Browser. Combines <code>azureSignIn.clientId</code>, <code>azureSignIn.port</code> and <code>azureSignIn.scope</code>, which can not be directly modified.</td>
+</tr>
+<tr>
+<td><code>azureSignIn.signOutUri</code></td>
+<td>String</td>
+<td><a href="https://login.microsoftonline.com/common/oauth2/v2.0/logout">https://login.microsoftonline.com/common/oauth2/v2.0/logout</a></td>
+<td>&cross;</td>
+<td>Azure Auth URL used to Sign out from the Browser.</td>
+</tr>
+</tbody>
+</table>
+
 
 ### 5.6. The Token-Entity
 The Token has multiple fields, some are set in case of success, some in case of failure.
-| Name                     | Type            | Example                                                                              | Description                                                                                                                                                                                                                        |
-| ------------------------ | --------------- | ------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `token.tokenType`        | String          | Bearer                                                                               | Indicates the token type value. The only type that Azure AD supports is **Bearer**                                                                                                                                                 |
-| `token.scope`            | String          | user_impersonation                                                                   | The scopes that the **access_token** is valid for. Optional. This parameter is non-standard and, if omitted, the token is for the scopes requested on the initial leg of the flow.                                                 |
-| `token.expiresIn`        | String          | 5084                                                                                 | How long the access token is valid, in seconds.                                                                                                                                                                                    |
-| `token.extExpiresIn`     | String          | 5084                                                                                 | Used to indicate an extended lifetime for the access token and to support resiliency when the token issuance service is not responding.                                                                                            |
-| `token.expiresOn`        | String          | 1674580651                                                                           | Timestamp when the token expires.                                                                                                                                                                                                  |
-| `token.notBefore`        | String          | 1674575266                                                                           | The time at which the token becomes valid, represented in epoch time. This time is usually the same as the time the token was issued. Azure AD B2C validates this value, and rejects the token if the token lifetime is not valid. |
-| `token.resource`         | String          | https://management.core.windows.net/                                                 | Resource the token has access to.                                                                                                                                                                                                  |
-| `token.accessToken`      | String          | eyJ0eXAiOiJKV1QiLCJhbGciOiJS...                                                      | The requested access token. The app can use this token to authenticate to the secured resource, such as a web API.                                                                                                                 |
-| `token.refreshToken`     | String          | 0.AQUAjHBCWE0CK06v4qgD88sl3Z...                                                      | An OAuth 2.0 refresh token. The app can use this token to acquire other access tokens after the current access token expires. Refresh tokens are long-lived. They can maintain access to resources for extended periods.           |
-| `token.idToken`          | String          | eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIs...                                              | A JSON Web Token. The app can decode the segments of this token to request information about the user who signed in. The app can cache the values and display them, and confidential clients can use this token for authorization. |
-| `token.foci`             | String          | 1                                                                                    | Access to Microsoft Office apps while they have a session on a mobile device using FOCI (Family of Client IDs).                                                                                                                    |
-| `token.status`           | int             | 0: Success<br />1: Azure API error<br />2: HttpServer error<br />3: Sign In canceled | Status of the Token authorization code flow result, can be used for error-handling or giving the user some further information.                                                                                                    |
-| `token.error`            | String          | invalid_grant                                                                        | An error code string that can be used to classify types of errors, and to react to errors.                                                                                                                                         |
-| `token.errorDescription` | String          | AADSTS900144: The request body must contain the following parameter: 'code'...       | A specific error message that can help a developer identify the root cause of an authentication error.                                                                                                                             |
-| `token.errorCodes`       | List\<dynamic\> | [900144]                                                                             | A list of STS-specific error codes that can help in diagnostics.                                                                                                                                                                   |
-| `token.errorUri`         | String          | https://login.microsoftonline.com/error?code=900144                                  | URL to a Microsoft documentation, concerning the emerged error.                                                                                                                                                                    |
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Example</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>token.tokenType</code></td>
+<td>String</td>
+<td>Bearer</td>
+<td>Indicates the token type value. The only type that Azure AD supports is <strong>Bearer</strong></td>
+</tr>
+<tr>
+<td><code>token.scope</code></td>
+<td>String</td>
+<td>user_impersonation</td>
+<td>The scopes that the <strong>access_token</strong> is valid for. Optional. This parameter is non-standard and, if omitted, the token is for the scopes requested on the initial leg of the flow.</td>
+</tr>
+<tr>
+<td><code>token.expiresIn</code></td>
+<td>String</td>
+<td>5084</td>
+<td>How long the access token is valid, in seconds.</td>
+</tr>
+<tr>
+<td><code>token.extExpiresIn</code></td>
+<td>String</td>
+<td>5084</td>
+<td>Used to indicate an extended lifetime for the access token and to support resiliency when the token issuance service is not responding.</td>
+</tr>
+<tr>
+<td><code>token.expiresOn</code></td>
+<td>String</td>
+<td>1674580651</td>
+<td>Timestamp when the token expires.</td>
+</tr>
+<tr>
+<td><code>token.notBefore</code></td>
+<td>String</td>
+<td>1674575266</td>
+<td>The time at which the token becomes valid, represented in epoch time. This time is usually the same as the time the token was issued. Azure AD B2C validates this value and rejects the token if the token lifetime is not valid.</td>
+</tr>
+<tr>
+<td><code>token.resource</code></td>
+<td>String</td>
+<td><a href="https://management.core.windows.net/">https://management.core.windows.net/</a></td>
+<td>Resource the token has access to.</td>
+</tr>
+<tr>
+<td><code>token.accessToken</code></td>
+<td>String</td>
+<td>eyJ0eXAiOiJKV1QiLCJhbGciOiJS...</td>
+<td>The requested access token. The app can use this token to authenticate to the secured resource, such as a web API.</td>
+</tr>
+<tr>
+<td><code>token.refreshToken</code></td>
+<td>String</td>
+<td>0.AQUAjHBCWE0CK06v4qgD88sl3Z...</td>
+<td>An OAuth 2.0 refresh token. The app can use this token to acquire other access tokens after the current access token expires. Refresh tokens are long-lived. They can maintain access to resources for extended periods.</td>
+</tr>
+<tr>
+<td><code>token.idToken</code></td>
+<td>String</td>
+<td>eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIs...</td>
+<td>A JSON Web Token. The app can decode the segments of this token to request information about the user who signed in. The app can cache the values and display them, and confidential clients can use this token for authorization.</td>
+</tr>
+<tr>
+<td><code>token.foci</code></td>
+<td>String</td>
+<td>1</td>
+<td>Access to Microsoft Office apps while they have a session on a mobile device using FOCI (Family of Client IDs).</td>
+</tr>
+<tr>
+<td><code>token.status</code></td>
+<td>int</td>
+<td>0: Success<br />1: Azure API error<br />2: HttpServer error<br />3: Sign In canceled</td>
+<td>Status of the Token authorization code flow result, can be used for error-handling or giving the user some further information.</td>
+</tr>
+<tr>
+<td><code>token.error</code></td>
+<td>String</td>
+<td>invalid_grant</td>
+<td>An error code string that can be used to classify types of errors, and to react to errors.</td>
+</tr>
+<tr>
+<td><code>token.errorDescription</code></td>
+<td>String</td>
+<td>AADSTS900144: The request body must contain the following parameter: &#39;code&#39;...</td>
+<td>A specific error message that can help a developer identify the root cause of an authentication error.</td>
+</tr>
+<tr>
+<td><code>token.errorCodes</code></td>
+<td>List\<dynamic\></td>
+<td>[900144]</td>
+<td>A list of STS-specific error codes that can help in diagnostics.</td>
+</tr>
+<tr>
+<td><code>token.errorUri</code></td>
+<td>String</td>
+<td><a href="https://login.microsoftonline.com/error?code=900144">https://login.microsoftonline.com/error?code=900144</a></td>
+<td>URL to a Microsoft documentation, concerning the emerged error.</td>
+</tr>
+</tbody>
+</table>
+
 
 ## 6 Where to go from here
 With the `token.accessToken` you now have access to the Microsoft APIs.
