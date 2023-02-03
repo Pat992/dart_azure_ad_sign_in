@@ -120,7 +120,6 @@ class AzureApiDatasource implements IAzureApiDatasource {
         'status': 1,
       });
     } catch (e) {
-      print(e.toString());
       return TokenModel.fromMap({
         'error': 'unknown_exception',
         'error_description': e.toString(),
