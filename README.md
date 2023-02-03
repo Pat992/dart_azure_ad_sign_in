@@ -56,22 +56,7 @@
 The package can simply be used without any configuration to gain the same access you would have with the **[az cli](https://learn.microsoft.com/en-us/cli/azure/)**, or it can be configurated to modify the access.
 
 ## 3 Authentication Flow
-```mermaid
-sequenceDiagram
-    participant N as Dart/Flutter App
-    participant S as Microsoft Sign-In page
-    participant E as Microsoft token Endpoint
-    Note over N,E: Sign-In Sequence
-    N->>N: Opens local HTTP-Server
-    S->>S: User signs-in
-    S->>N: Sends code to local HTTP-Server
-    N->>E: Sends code, redirect_uri, grant_type and client_id to the token endpoint
-    E->>N: Returns access- and refresh-token
-    N->>N: Closes local HTTP-Server
-    Note over N,E: After token expires: Refresh-Token Sequence
-    N->>E: Send grant_type and refresh_token to Azure token Endpoint
-    E->>N: Returns a new access- and refresh-token
-```
+![SignIn Wokrflow](https://raw.githubusercontent.com/Pat992/readme-images/main/dart_azure_ad_sign_in/workflow.png)
 
 
 ## 4 Getting started
