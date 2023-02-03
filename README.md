@@ -111,7 +111,7 @@ As this app uses the internet, networking needs to be enabled in the `AndroidMan
 ```
 
 #### 4.3.2 Cleartext traffic
-This app will open a local HTTP Server, which accepts cleartext traffic, and allow an insecure connection to only the localhost by creating `res/xml/network_security_config.xml` and configuring it as follows.
+This app will open a local HTTP Server, which accepts cleartext traffic, allowing an insecure connection to only the localhost by creating `res/xml/network_security_config.xml` and configuring it as follows.
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
@@ -140,7 +140,7 @@ Then load the file into your `AndroidManifest.xml`.
 Not necessary for iOS.
 
 #### 4.4.2 Cleartext traffic
-This app will open a local HTTP Server, which accepts cleartext traffic, and allow an insecure connection to only the localhost by creating a specific rule as following `info.plist`.
+This app will open a local HTTP Server, which accepts cleartext traffic, allowing an insecure connection to only the localhost by creating a specific rule as following `info.plist`.
 ```xml
 <key>NSAppTransportSecurity</key>
 <dict>
@@ -171,7 +171,7 @@ As this app uses the internet, networking needs to be enabled in the `.entitleme
 <true/>
 ```
 #### 4.5.2 Cleartext traffic
-This app will open a local HTTP Server, which accepts cleartext traffic, and allow an insecure connection to only the localhost by creating a specific rule as following `info.plist`.
+This app will open a local HTTP Server, which accepts cleartext traffic, allowing an insecure connection to only the localhost by creating a specific rule as following `info.plist`.
 ```xml
 <key>NSAppTransportSecurity</key>
 <dict>
@@ -323,5 +323,5 @@ The Token has multiple fields, some are set in case of success, some in case of 
 With the `token.accessToken` you now have access to the Microsoft APIs.
 Read more on the [Azure Rest API reference](https://learn.microsoft.com/en-us/rest/api/azure/), or check out the [Application IDs of commonly used Microsoft applications](https://learn.microsoft.com/en-us/troubleshoot/azure/active-directory/verify-first-party-apps-sign-in#application-ids-of-commonly-used-microsoft-applications) to add some pre-existing `azureSignIn.clientId`.
 
-### 7 Bugs and issues
+## 7 Bugs and issues
 Please file feature requests and bugs at the [issue tracker](https://github.com/Pat992/dart_azure_ad_sign_in/issues)
