@@ -94,7 +94,7 @@ class HttpServerDatasource implements IHttpServerDatasource {
   Future<HttpServerModel> listenForRequest({
     required String serverSuccessResponse,
     required String serverErrorResponse,
-}) async {
+  }) async {
     final httpServerCompleter = Completer<Map<String, dynamic>>();
     httpServerListener = httpServer.listen((request) async {
       final body = await utf8.decodeStream(request);
