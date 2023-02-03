@@ -1,4 +1,4 @@
-#Dart package for Azure AD Sign In
+# Dart package for Azure AD Sign In
 
 <div>
 <a href="https://pub.dev/packages/dart_azure_ad_sign_in"><img src="https://img.shields.io/pub/v/dart_azure_ad_sign_in.svg" alt="Pub"></a>
@@ -7,6 +7,14 @@
 <a href="https://github.com/Pat992/dart_azure_ad_sign_in"><img src="https://img.shields.io/github/stars/Pat992/dart_azure_ad_sign_in.svg?style=flat&logo=github&colorB=deeppink&label=stars" alt="Star on Github"></a>
 <a href="https://opensource.org/licenses/BSD-3-Clause"><img src="https://img.shields.io/static/v1?label=license&message=BSD 3-Clause&color=yellow" alt="License: BSD 3-Clause"></a>
 </div>
+
+* [1. Platform Support](#1.-Platform-Support)
+* [2. Features](#2.-Features)
+* [3. Authentication Flow](#3.-Authentication-Flow)
+* [4. Getting started](#4.-Getting-started)
+* [5. Usage](#5.-Usage)
+* [6. Where to go from here](#6.-Where-to-go-from-here)
+
 
 ## 1. Platform Support
 | | Dart | Flutter | Dart - Tested on | Flutter - Tested on |
@@ -21,6 +29,7 @@
 ## 2. Features
 **dart_azure_ad_sign_in** allows Flutter and Dart apps to optain authentication tokens for authorized access to protected resources like Azure web APIs.
 The package can simply be used without any configuration to gain the same access you would have with the **[az cli](https://learn.microsoft.com/en-us/cli/azure/)**, or it can be configurated to modify the access.
+
 ## 3. Authentication Flow
 ```mermaid
 sequenceDiagram
@@ -41,6 +50,8 @@ sequenceDiagram
 
 
 ## 4. Getting started
+
+### 4.1. Installation
 Add the dependency to the pubspec.yaml for Dart and Flutter
 ```yaml
 dependencies:
@@ -54,10 +65,113 @@ With Flutter:
 ```powershell
 flutter pub add dart_azure_ad_sign_in
 ```
+
+### 4.2. Import
 Import the package:
 ```dart
 import 'package:dart_azure_ad_sign_in/dart_azure_ad_sign_in.dart';
 ```
+
+### 4.3. Android Settings
+
+#### 4.3.1. Networking
+As this app uses internet, networking needs to be enabled in the `AndroidManifest.xml`.
+```xml
+<manifest xmlns:android...>
+  ...
+  <uses-permission android:name="android.permission.INTERNET" />
+  <application ...
+</manifest>
+```
+
+#### 4.3.1. Cleartext traffic
+This app will open a local Http Server, which accepts cleartext traffic, allow an insecure connection to only the localhost by creating `res/xml/network_security_config.xml` and configure it as following.
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">localhost</domain>
+    </domain-config>
+</network-security-config>
+```
+Then load the file into your `AndroidManifest.xml`.
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<manifest ...>
+    <application
+        ...
+        android:networkSecurityConfig="@xml/network_security_config"
+        ...>
+        ...
+    </application>
+</manifest>
+
+```
+
+### 4.4. iOS Settings
+
+#### 4.3.1. Networking
+Not necessary for iOS.
+
+#### 4.3.1. Cleartext traffic
+This app will open a local Http Server, which accepts cleartext traffic, allow an insecure connection to only the localhost by creating a specific rule as following `info.plist`.
+```xml
+<key>NSAppTransportSecurity</key>
+<dict>
+      <key>NSAllowsArbitraryLoads</key> 
+      <false/>
+       <key>NSExceptionDomains</key>
+       <dict>
+            <key>localhost</key>
+            <dict>
+                <key>NSIncludesSubdomains</key>
+                <true/>
+                <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+                <true/>
+                <key>NSTemporaryExceptionMinimumTLSVersion</key>
+                <string>TLSv1.1</string>
+            </dict>
+       </dict>
+</dict>
+
+```
+
+### 4.5. macOS Settings
+
+#### 4.5.1. Networking
+As this app uses internet, networking needs to be enabled in the `.entitlements`.
+```xml
+<key>com.apple.security.network.client</key>
+<true/>
+```
+#### 4.5.1. Cleartext traffic
+This app will open a local Http Server, which accepts cleartext traffic, allow an insecure connection to only the localhost by creating a specific rule as following `info.plist`.
+```xml
+<key>NSAppTransportSecurity</key>
+<dict>
+      <key>NSAllowsArbitraryLoads</key> 
+      <false/>
+       <key>NSExceptionDomains</key>
+       <dict>
+            <key>localhost</key>
+            <dict>
+                <key>NSIncludesSubdomains</key>
+                <true/>
+                <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+                <true/>
+                <key>NSTemporaryExceptionMinimumTLSVersion</key>
+                <string>TLSv1.1</string>
+            </dict>
+       </dict>
+</dict>
+
+```
+
+### 4.6. Windows Settings
+No further settings required.
+
+### 4.7. Linux Settings
+No further settings required.
 
 ## 5. Usage
 
@@ -65,12 +179,12 @@ import 'package:dart_azure_ad_sign_in/dart_azure_ad_sign_in.dart';
 The class itself is very flexible, no parameters need to be set and it will use the **[az cli](https://learn.microsoft.com/en-us/cli/azure/)** configuration.
 For information on all available variables in this class, refer to **5.5 AzureSignIn Variables**
 
-#### 5.1.1 Creating instance without parameters (using az cli default settings)
+#### 5.1.1. Creating instance without parameters (using az cli default settings)
 ```dart
     final azureSignIn = AzureSignIn();
 ```
 
-#### 5.1.2 Creating instance with parameters
+#### 5.1.2. Creating instance with parameters
 Parameters for the Authentication and local Http-Server can be set if needed.
 ```dart
   final azureSignIn = AzureSignIn(
@@ -99,9 +213,9 @@ Parameters for the Authentication and local Http-Server can be set if needed.
     signInTimeoutDuration: Duration(minutes: 5),
   );
 ```
-### 5.2 Sign In
+### 5.2. Sign In
 
-#### 5.2.1 Get the Sign Microsoft Sign-In page URL
+#### 5.2.1. Get the Sign Microsoft Sign-In page URL
 The user needs to sign-in in the Browser, to do so the Sign In URL can be received.
 If Flutter is being used, this URL could be opened with the **[url_launcher](https://pub.dev/packages/url_launcher)**
 ```dart
@@ -109,7 +223,7 @@ If Flutter is being used, this URL could be opened with the **[url_launcher](htt
     print(azureSignIn.signInUri);
 ```
 
-#### 5.2.2 Start the Sign In process
+#### 5.2.2. Start the Sign In process
 The signIn will return a new `Token`.
 In the background a `HttpServer` is started and waits for the code to be received after the Sign In in the Browser, 
 then the **Microsoft token Endpoint** will be called with the code and a token is returned.
@@ -118,7 +232,7 @@ The `Token` will always be created, but depending on success or error, different
     Token token = await azureSignIn.signIn();
 ```
 
-### 5.3 Cancel the Sign In process
+### 5.3. Cancel the Sign In process
 The Sign In Process itself has the defined timeout set in the variable `azureSignIn.signInTimeoutDuration`, but with the following function the user could cancel the Sign in if needed.
 The `azureSignIn.signIn()` will then receive a `Token` with the information of a cancellation in the variable `token.status` (See more: **5.6 The Token-Entity**).
 ```dart
@@ -126,11 +240,11 @@ The `azureSignIn.signIn()` will then receive a `Token` with the information of a
     async azureSignIn.cancelSignIn();
 ```
 
-### 5.4 Refresh Token
+### 5.4. Refresh Token
 Once the token expires it can be either refreshed by giving it the existing `Token` or just giving it a refresh-token String.
 On of the Values needs to be sent, else a `Token` with a error-status will be returned, see `token.status` in **5.6 The Token-Entity**.
 
-#### 5.4.1 Refresh Token with a `Token`
+#### 5.4.1. Refresh Token with a `Token`
 The Token can be refreshed by using the existing `Token`
 ```dart
     // refresh a token by giving the previous aquired token object.
@@ -144,7 +258,7 @@ Or if the `Token` is not available anymore the refresh-token can be sent as a St
     token = await azureSignIn.refreshToken(refreshToken: refreshTokenString);
 ```
 
-### 5.5 AzureSignIn Variables
+### 5.5. AzureSignIn Variables
 Some class variables can be modfied while running, some others are read-only.
 | Name | Type | Default value | Can be modified | Description |
 | ----------- | ----------- | ----------- | ----------- | ----------- |
@@ -158,7 +272,7 @@ Some class variables can be modfied while running, some others are read-only.
 | `azureSignIn.signInUri` | String | https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize<br />?client_id=[CLIENT_ID]<br />&response_type=code<br />&redirect_uri=http://localhost:[PORT]<br />&scope=[SCOPE]<br />&response_mode=form_post | :heavy_multiplication_x: | Getter for the Microsoft Sign-In URL used to Sign In via Browser. Combines `azureSignIn.clientId`, `azureSignIn.port` and `azureSignIn.scope`, can not be directly modified. |
 | `azureSignIn.signOutUri` | String | https://login.microsoftonline.com/common/oauth2/v2.0/logout | :heavy_multiplication_x: | Azure Auth URL used to Sign out from the Browser. |
 
-### 5.6 The Token-Entity
+### 5.6. The Token-Entity
 The Token has multiple fields, some are set in case of success, some in case of a failure.
 | Name | Type | Example | Description |
 | ----------- | ----------- | ----------- | ----------- |
@@ -179,7 +293,7 @@ The Token has multiple fields, some are set in case of success, some in case of 
 | `token.errorCodes` | List\<dynamic\> | [900144] | A list of STS-specific error codes that can help in diagnostics. |
 | `token.errorUri` | String | https://login.microsoftonline.com/error?code=900144 | URL to a Microsoft documentation, concerning the emerged error. |
 
-## 6 Where to go from here
+## 6. Where to go from here
 
 TODO: Tell users more about the package: where to find more information, how to 
 contribute to the package, how to file issues, what response they can expect 
