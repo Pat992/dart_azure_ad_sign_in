@@ -39,12 +39,12 @@
   - [5.5 AzureSignIn Variables](#55-azuresignin-variables)
   - [5.6. The Token-Entity](#56-the-token-entity)
 - [6 Where to go from here](#6-where-to-go-from-here)
-  - [7 Bugs and issues](#7-bugs-and-issues)
+- [7 Bugs and issues](#7-bugs-and-issues)
 
 ## 1 Platform Support
 |         | Dart                     | Flutter                  | Dart - Tested on                                | Flutter - Tested on                             |
 | ------- | ------------------------ | ------------------------ | ----------------------------------------------- | ----------------------------------------------- |
-| Android | :heavy_multiplication_x: | :heavy_check_mark:       | -                                               | Tested on Pixel 4 (Emulator) and Xiaomi P9.     |
+| Android | :heavy_multiplication_x: | :heavy_check_mark:       | -                                               | Tested on Pixel 4 (Emulator) and Xiaomi 9T.     |
 | iOS     | :heavy_multiplication_x: | :heavy_minus_sign:       | -                                               | Not yet tested, but should work.                |
 | Linux   | :heavy_check_mark:       | :heavy_check_mark:       | Tested on Ubuntu 22.04 LTS.                     | Tested on Ubuntu 22.04 LTS.                     |
 | MacOS   | :heavy_minus_sign:       | :heavy_minus_sign:       | Not yet tested, but should work.                | Not yet tested, but should work.                |
@@ -334,7 +334,7 @@ Some class variables can be modified while running, some others are read-only.
 <tr>
 <td><code>azureSignIn.signInUri</code></td>
 <td>String</td>
-<td><a href="https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize">https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize</a><br />?client_id=[CLIENT_ID]<br />&amp;response_type=code<br />&amp;redirect_uri=<a href="http://localhost:[PORT">http://localhost:[PORT</a>]<br />&amp;scope=[SCOPE]<br />&amp;response_mode=form_post</td>
+<td>https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize<br />?client_id=[CLIENT_ID]<br />&amp;response_type=code<br />&amp;redirect_uri=http://localhost:[PORT]<br />&amp;scope=[SCOPE]<br />&amp;response_mode=form_post</td>
 <td>&cross;</td>
 <td>Getter for the Microsoft Sign-In URL used to Sign In via Browser. Combines <code>azureSignIn.clientId</code>, <code>azureSignIn.port</code> and <code>azureSignIn.scope</code>, which can not be directly modified.</td>
 </tr>
@@ -448,7 +448,7 @@ The Token has multiple fields, some are set in case of success, some in case of 
 </tr>
 <tr>
 <td><code>token.errorCodes</code></td>
-<td>List\<dynamic\></td>
+<td>List&lsaquo;dynamic&bsol;&rsaquo;</td>
 <td>[900144]</td>
 <td>A list of STS-specific error codes that can help in diagnostics.</td>
 </tr>

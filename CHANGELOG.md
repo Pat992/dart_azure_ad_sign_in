@@ -1,4 +1,4 @@
-## 1.0.0+1
+## 1.0.0+2
 
 - Replaced long row tables with HTML, as pub.dev is not supporting it
 
