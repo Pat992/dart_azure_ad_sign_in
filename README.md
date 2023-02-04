@@ -37,7 +37,7 @@
     - [5.4.1 Refresh Token with an existing `Token`](#541-refresh-token-with-an-existing-token)
     - [5.4.2 Refresh Token with the Refresh-Token String](#542-refresh-token-with-the-refresh-token-string)
   - [5.5 AzureSignIn Variables](#55-azuresignin-variables)
-  - [5.6. The Token-Entity](#56-the-token-entity)
+  - [5.6 The Token-Entity](#56-the-token-entity)
 - [6 Where to go from here](#6-where-to-go-from-here)
 - [7 Bugs and issues](#7-bugs-and-issues)
 
@@ -187,7 +187,7 @@ No further settings are required.
 
 ### 5.1 AzureSignIn instance creation and configuration
 The class itself is very flexible, no parameters need to be set and it will use the **[az cli](https://learn.microsoft.com/en-us/cli/azure/)** configuration.
-For information on all available variables in this class, refer to **5.5 AzureSignIn Variables**
+For information on all available variables in this class, refer to **[5.5 AzureSignIn Variables](#55-azuresignin-variables)**
 
 #### 5.1.1 Creating an instance without parameters (using az cli default settings) <a name="paragraph511"></a>
 ```dart
@@ -237,14 +237,14 @@ If Flutter is being used, this URL could be opened with the **[url_launcher](htt
 The sign-in will return a new `Token`.
 In the background an `HttpServer` is started and waits for the code to be received after the sign-in in the Browser, 
 then the **Microsoft token Endpoint** will be called with the code and a token is returned.
-The `Token` will always be created, but depending on success or error, different values will be set, see the variable `token.status` in **5.6 The Token-Entity**.
+The `Token` will always be created, but depending on success or error, different values will be set, see the variable `token.status` in **[5.6. The Token-Entity](#56-the-token-entity)**.
 ```dart
     Token token = await azureSignIn.signIn();
 ```
 
 ### 5.3 Cancel the Sign In process
 The Sign In Process itself has the defined timeout set in the variable `azureSignIn.signInTimeoutDuration`, but with the following function the user could cancel the Sign in if needed.
-The `azureSignIn.signIn()` will then receive a `Token` with the information of cancellation in the variable `token.status` (See more: **5.6 The Token-Entity**).
+The `azureSignIn.signIn()` will then receive a `Token` with the information of cancellation in the variable `token.status` (See more: **[5.6. The Token-Entity](#56-the-token-entity)**).
 ```dart
     // Cancels the sign-in process.
     async azureSignIn.cancelSignIn();
@@ -252,7 +252,7 @@ The `azureSignIn.signIn()` will then receive a `Token` with the information of c
 
 ### 5.4 Refresh a Token
 Once the token expires it can be either refreshed by giving it the existing `Token` or just giving it a refresh-token String.
-One of the Values needs to be sent, else a `Token` with an error status will be returned, see `token.status` in **5.6 The Token-Entity**.
+One of the Values needs to be sent, else a `Token` with an error status will be returned, see `token.status` in **[5.6. The Token-Entity](#56-the-token-entity)**.
 
 #### 5.4.1 Refresh Token with an existing `Token`
 The Token can be refreshed by using the existing `Token`
