@@ -291,7 +291,7 @@ Some class variables can be modified while running, some others are read-only.
 </tr>
 <tr>
 <td><code>azureSignIn.scope</code></td>
-<td>List\<String\></td>
+<td>List&lt;String&gt;</td>
 <td>[<br />&#39;<a href="https://management.core.windows.net//.default">https://management.core.windows.net//.default</a>&#39;,<br />&#39;offline_access&#39;,<br />&#39;openid&#39;,<br />&#39;profile&#39;<br />]</td>
 <td>&check;</td>
 <td>A space-separated list of scopes that you want the user to consent to. For the /authorize leg of the request, this parameter can cover multiple resources. This value allows your app to get consent for multiple web APIs you want to call. Uses the <strong><a href="https://learn.microsoft.com/en-us/cli/azure/">az cli</a></strong> Scopes by default</td>
@@ -448,7 +448,7 @@ The Token has multiple fields, some are set in case of success, some in case of 
 </tr>
 <tr>
 <td><code>token.errorCodes</code></td>
-<td>List&lsaquo;dynamic&bsol;&rsaquo;</td>
+<td>List&lt;dynamic&gt;</td>
 <td>[900144]</td>
 <td>A list of STS-specific error codes that can help in diagnostics.</td>
 </tr>
