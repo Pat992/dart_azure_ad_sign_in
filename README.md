@@ -191,37 +191,37 @@ For information on all available variables in this class, refer to **[5.5 AzureS
 
 #### 5.1.1 Creating an instance without parameters (using az cli default settings) <a name="paragraph511"></a>
 ```dart
-    final azureSignIn = AzureSignIn();
+final azureSignIn = AzureSignIn();
 ```
 
 #### 5.1.2 Creating an instance with parameters
 Parameters for the Authentication and local Http-Server can be set if needed.
 ```dart
-  final azureSignIn = AzureSignIn(
-    // The Application (client) ID that the Azure portal – App registrations page assigned to your app.
-    // Optional, uses the az cli client id: '04b07795-8ddb-461a-bbee-02f9e1bf7b46'
-    clientId: '04b07795-8ddb-461a-bbee-02f9e1bf7b46',
-    // A list of scopes that you want the user to consent to.
-    // Optional, uses the az cli scope: ['https://management.core.windows.net//.default', 'offline_access', 'openid', 'profile']
-    scope: [
-      'https://management.core.windows.net//.default',
-      'offline_access',
-      'openid',
-      'profile',
-    ],
-    // Port of the Local HttpServer which will receive the code after sign in.
-    // Optional, uses the port 5000
-    port: 5000,
-    // Response of the Local HttpServer, which the user will see in the browser after successful sign in.
-    // Optional, uses 'Sign In successful. This window can now be closed.'
-    serverSuccessResponse: '<h1>Sign In successful.</h1><p>This window can now be closed.</p>',
-    // Response of the Local HttpServer, which the user will see in the browser after sign in failure.
-    // Optional, uses 'Sign In failed. Close this window and try again.'
-    serverErrorResponse: '<h1>Sign In failed.</h1><p>Close this window and try again.</p>',
-    // Duration on how long the local HttpServer waits, for the user to sign in before creating a cancelled-token and closing.
-    // Optional, uses Duration(minutes: 5)
-    signInTimeoutDuration: Duration(minutes: 5),
-  );
+final azureSignIn = AzureSignIn(
+  // The Application (client) ID that the Azure portal – App registrations page assigned to your app.
+  // Optional, uses the az cli client id: '04b07795-8ddb-461a-bbee-02f9e1bf7b46'
+  clientId: '04b07795-8ddb-461a-bbee-02f9e1bf7b46',
+  // A list of scopes that you want the user to consent to.
+  // Optional, uses the az cli scope: ['https://management.core.windows.net//.default', 'offline_access', 'openid', 'profile']
+  scope: [
+    'https://management.core.windows.net//.default',
+    'offline_access',
+    'openid',
+    'profile',
+  ],
+  // Port of the Local HttpServer which will receive the code after sign in.
+  // Optional, uses the port 5000
+  port: 5000,
+  // Response of the Local HttpServer, which the user will see in the browser after successful sign in.
+  // Optional, uses 'Sign In successful. This window can now be closed.'
+  serverSuccessResponse: '<h1>Sign In successful.</h1><p>This window can now be closed.</p>',
+  // Response of the Local HttpServer, which the user will see in the browser after sign in failure.
+  // Optional, uses 'Sign In failed. Close this window and try again.'
+  serverErrorResponse: '<h1>Sign In failed.</h1><p>Close this window and try again.</p>',
+  // Duration on how long the local HttpServer waits, for the user to sign in before creating a cancelled-token and closing.
+  // Optional, uses Duration(minutes: 5)
+  signInTimeoutDuration: Duration(minutes: 5),
+);
 ```
 ### 5.2 Sign In
 
@@ -229,8 +229,8 @@ Parameters for the Authentication and local Http-Server can be set if needed.
 The user needs to sign-in to the Browser, to do so the Sign In URL can be received.
 If Flutter is being used, this URL could be opened with the **[url_launcher](https://pub.dev/packages/url_launcher)**
 ```dart
-    // Print the SignIn URL, the user has to open in the browser.
-    print(azureSignIn.signInUri);
+// Print the SignIn URL, the user has to open in the browser.
+print(azureSignIn.signInUri);
 ```
 
 #### 5.2.2 Start the Sign In process
@@ -239,15 +239,15 @@ In the background an `HttpServer` is started and waits for the code to be receiv
 then the **Microsoft token Endpoint** will be called with the code and a token is returned.
 The `Token` will always be created, but depending on success or error, different values will be set, see the variable `token.status` in **[5.6. The Token-Entity](#56-the-token-entity)**.
 ```dart
-    Token token = await azureSignIn.signIn();
+Token token = await azureSignIn.signIn();
 ```
 
 ### 5.3 Cancel the Sign In process
 The Sign In Process itself has the defined timeout set in the variable `azureSignIn.signInTimeoutDuration`, but with the following function the user could cancel the Sign in if needed.
 The `azureSignIn.signIn()` will then receive a `Token` with the information of cancellation in the variable `token.status` (See more: **[5.6. The Token-Entity](#56-the-token-entity)**).
 ```dart
-    // Cancels the sign-in process.
-    async azureSignIn.cancelSignIn();
+// Cancels the sign-in process.
+async azureSignIn.cancelSignIn();
 ```
 
 ### 5.4 Refresh a Token
@@ -257,15 +257,15 @@ One of the Values needs to be sent, else a `Token` with an error status will be 
 #### 5.4.1 Refresh Token with an existing `Token`
 The Token can be refreshed by using the existing `Token`
 ```dart
-    // refresh a token by giving the previous aquired token object.
-    token = await azureSignIn.refreshToken(token: token);
+// refresh a token by giving the previous aquired token object.
+token = await azureSignIn.refreshToken(token: token);
 ```
 
 #### 5.4.2 Refresh Token with the Refresh-Token String
 Or if the `Token` is not available anymore the refresh token can be sent as a String.
 ```dart
-    // refresh a token by giving the refresh-token as a string.
-    token = await azureSignIn.refreshToken(refreshToken: refreshTokenString);
+// refresh a token by giving the refresh-token as a string.
+token = await azureSignIn.refreshToken(refreshToken: refreshTokenString);
 ```
 
 ### 5.5 AzureSignIn Variables
