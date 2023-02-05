@@ -68,7 +68,7 @@ Check out the Dart and Flutter example app to have a quick view of how this pack
 Add the dependency to the pubspec.yaml for Dart and Flutter
 ```yaml
 dependencies:
-  dart_azure_ad_sign_in: ^1.0.0
+  dart_azure_ad_sign_in: ^1.0.0+3
 ```
 Or Run this command with Dart:
 ```powershell
@@ -344,7 +344,7 @@ Some class variables can be modified while running, some others are read-only.
 <tr>
 <td><code>azureSignIn.signOutUri</code></td>
 <td>String</td>
-<td><a href="https://login.microsoftonline.com/common/oauth2/v2.0/logout">https://login.microsoftonline.com/common/oauth2/v2.0/logout</a></td>
+<td>https://login.microsoftonline.com/common/oauth2/v2.0/logout</td>
 <td>&cross;</td>
 <td>Azure Auth URL used to Sign out from the Browser.</td>
 </tr>
@@ -404,7 +404,7 @@ The Token has multiple fields, some are set in case of success, some in case of 
 <tr>
 <td><code>token.resource</code></td>
 <td>String</td>
-<td><a href="https://management.core.windows.net/">https://management.core.windows.net/</a></td>
+<td>https://management.core.windows.net/</td>
 <td>Resource the token has access to.</td>
 </tr>
 <tr>
@@ -458,7 +458,7 @@ The Token has multiple fields, some are set in case of success, some in case of 
 <tr>
 <td><code>token.errorUri</code></td>
 <td>String</td>
-<td><a href="https://login.microsoftonline.com/error?code=900144">https://login.microsoftonline.com/error?code=900144</a></td>
+<td>https://login.microsoftonline.com/error?code=900144</td>
 <td>URL to a Microsoft documentation, concerning the emerged error.</td>
 </tr>
 </tbody>
