@@ -37,14 +37,14 @@
     - [5.4.1 Refresh Token with an existing `Token`](#541-refresh-token-with-an-existing-token)
     - [5.4.2 Refresh Token with the Refresh-Token String](#542-refresh-token-with-the-refresh-token-string)
   - [5.5 AzureSignIn Variables](#55-azuresignin-variables)
-  - [5.6. The Token-Entity](#56-the-token-entity)
+  - [5.6 The Token-Entity](#56-the-token-entity)
 - [6 Where to go from here](#6-where-to-go-from-here)
-  - [7 Bugs and issues](#7-bugs-and-issues)
+- [7 Bugs and issues](#7-bugs-and-issues)
 
 ## 1 Platform Support
 |         | Dart                     | Flutter                  | Dart - Tested on                                | Flutter - Tested on                             |
 | ------- | ------------------------ | ------------------------ | ----------------------------------------------- | ----------------------------------------------- |
-| Android | :heavy_multiplication_x: | :heavy_check_mark:       | -                                               | Tested on Pixel 4 (Emulator) and Xiaomi P9.     |
+| Android | :heavy_multiplication_x: | :heavy_check_mark:       | -                                               | Tested on Pixel 4 (Emulator) and Xiaomi 9T.     |
 | iOS     | :heavy_multiplication_x: | :heavy_minus_sign:       | -                                               | Not yet tested, but should work.                |
 | Linux   | :heavy_check_mark:       | :heavy_check_mark:       | Tested on Ubuntu 22.04 LTS.                     | Tested on Ubuntu 22.04 LTS.                     |
 | MacOS   | :heavy_minus_sign:       | :heavy_minus_sign:       | Not yet tested, but should work.                | Not yet tested, but should work.                |
@@ -54,6 +54,9 @@
 ## 2 Features
 **dart_azure_ad_sign_in** allows Flutter and Dart apps to obtain authentication tokens for authorized access to protected resources like Azure web APIs.
 The package can simply be used without any configuration to gain the same access you would have with the **[az cli](https://learn.microsoft.com/en-us/cli/azure/)**, or it can be configurated to modify the access.
+
+Check out the Dart and Flutter example app to have a quick view of how this package could be used.
+[dart_azure_ad_sign_in_poc](https://github.com/Pat992/dart_azure_ad_sign_in_poc)
 
 ## 3 Authentication Flow
 ![SignIn Wokrflow](https://raw.githubusercontent.com/Pat992/readme-images/main/dart_azure_ad_sign_in/workflow.png)
@@ -65,7 +68,7 @@ The package can simply be used without any configuration to gain the same access
 Add the dependency to the pubspec.yaml for Dart and Flutter
 ```yaml
 dependencies:
-  dart_azure_ad_sign_in: ^1.0.0
+  dart_azure_ad_sign_in: ^1.0.0+3
 ```
 Or Run this command with Dart:
 ```powershell
@@ -187,41 +190,41 @@ No further settings are required.
 
 ### 5.1 AzureSignIn instance creation and configuration
 The class itself is very flexible, no parameters need to be set and it will use the **[az cli](https://learn.microsoft.com/en-us/cli/azure/)** configuration.
-For information on all available variables in this class, refer to **5.5 AzureSignIn Variables**
+For information on all available variables in this class, refer to **[5.5 AzureSignIn Variables](#55-azuresignin-variables)**
 
 #### 5.1.1 Creating an instance without parameters (using az cli default settings) <a name="paragraph511"></a>
 ```dart
-    final azureSignIn = AzureSignIn();
+final azureSignIn = AzureSignIn();
 ```
 
 #### 5.1.2 Creating an instance with parameters
 Parameters for the Authentication and local Http-Server can be set if needed.
 ```dart
-  final azureSignIn = AzureSignIn(
-    // The Application (client) ID that the Azure portal – App registrations page assigned to your app.
-    // Optional, uses the az cli client id: '04b07795-8ddb-461a-bbee-02f9e1bf7b46'
-    clientId: '04b07795-8ddb-461a-bbee-02f9e1bf7b46',
-    // A list of scopes that you want the user to consent to.
-    // Optional, uses the az cli scope: ['https://management.core.windows.net//.default', 'offline_access', 'openid', 'profile']
-    scope: [
-      'https://management.core.windows.net//.default',
-      'offline_access',
-      'openid',
-      'profile',
-    ],
-    // Port of the Local HttpServer which will receive the code after sign in.
-    // Optional, uses the port 5000
-    port: 5000,
-    // Response of the Local HttpServer, which the user will see in the browser after successful sign in.
-    // Optional, uses 'Sign In successful. This window can now be closed.'
-    serverSuccessResponse: '<h1>Sign In successful.</h1><p>This window can now be closed.</p>',
-    // Response of the Local HttpServer, which the user will see in the browser after sign in failure.
-    // Optional, uses 'Sign In failed. Close this window and try again.'
-    serverErrorResponse: '<h1>Sign In failed.</h1><p>Close this window and try again.</p>',
-    // Duration on how long the local HttpServer waits, for the user to sign in before creating a cancelled-token and closing.
-    // Optional, uses Duration(minutes: 5)
-    signInTimeoutDuration: Duration(minutes: 5),
-  );
+final azureSignIn = AzureSignIn(
+  // The Application (client) ID that the Azure portal – App registrations page assigned to your app.
+  // Optional, uses the az cli client id: '04b07795-8ddb-461a-bbee-02f9e1bf7b46'
+  clientId: '04b07795-8ddb-461a-bbee-02f9e1bf7b46',
+  // A list of scopes that you want the user to consent to.
+  // Optional, uses the az cli scope: ['https://management.core.windows.net//.default', 'offline_access', 'openid', 'profile']
+  scope: [
+    'https://management.core.windows.net//.default',
+    'offline_access',
+    'openid',
+    'profile',
+  ],
+  // Port of the Local HttpServer which will receive the code after sign in.
+  // Optional, uses the port 5000
+  port: 5000,
+  // Response of the Local HttpServer, which the user will see in the browser after successful sign in.
+  // Optional, uses 'Sign In successful. This window can now be closed.'
+  serverSuccessResponse: '<h1>Sign In successful.</h1><p>This window can now be closed.</p>',
+  // Response of the Local HttpServer, which the user will see in the browser after sign in failure.
+  // Optional, uses 'Sign In failed. Close this window and try again.'
+  serverErrorResponse: '<h1>Sign In failed.</h1><p>Close this window and try again.</p>',
+  // Duration on how long the local HttpServer waits, for the user to sign in before creating a cancelled-token and closing.
+  // Optional, uses Duration(minutes: 5)
+  signInTimeoutDuration: Duration(minutes: 5),
+);
 ```
 ### 5.2 Sign In
 
@@ -229,43 +232,43 @@ Parameters for the Authentication and local Http-Server can be set if needed.
 The user needs to sign-in to the Browser, to do so the Sign In URL can be received.
 If Flutter is being used, this URL could be opened with the **[url_launcher](https://pub.dev/packages/url_launcher)**
 ```dart
-    // Print the SignIn URL, the user has to open in the browser.
-    print(azureSignIn.signInUri);
+// Print the SignIn URL, the user has to open in the browser.
+print(azureSignIn.signInUri);
 ```
 
 #### 5.2.2 Start the Sign In process
 The sign-in will return a new `Token`.
 In the background an `HttpServer` is started and waits for the code to be received after the sign-in in the Browser, 
 then the **Microsoft token Endpoint** will be called with the code and a token is returned.
-The `Token` will always be created, but depending on success or error, different values will be set, see the variable `token.status` in **5.6 The Token-Entity**.
+The `Token` will always be created, but depending on success or error, different values will be set, see the variable `token.status` in **[5.6. The Token-Entity](#56-the-token-entity)**.
 ```dart
-    Token token = await azureSignIn.signIn();
+Token token = await azureSignIn.signIn();
 ```
 
 ### 5.3 Cancel the Sign In process
 The Sign In Process itself has the defined timeout set in the variable `azureSignIn.signInTimeoutDuration`, but with the following function the user could cancel the Sign in if needed.
-The `azureSignIn.signIn()` will then receive a `Token` with the information of cancellation in the variable `token.status` (See more: **5.6 The Token-Entity**).
+The `azureSignIn.signIn()` will then receive a `Token` with the information of cancellation in the variable `token.status` (See more: **[5.6. The Token-Entity](#56-the-token-entity)**).
 ```dart
-    // Cancels the sign-in process.
-    async azureSignIn.cancelSignIn();
+// Cancels the sign-in process.
+async azureSignIn.cancelSignIn();
 ```
 
 ### 5.4 Refresh a Token
 Once the token expires it can be either refreshed by giving it the existing `Token` or just giving it a refresh-token String.
-One of the Values needs to be sent, else a `Token` with an error status will be returned, see `token.status` in **5.6 The Token-Entity**.
+One of the Values needs to be sent, else a `Token` with an error status will be returned, see `token.status` in **[5.6. The Token-Entity](#56-the-token-entity)**.
 
 #### 5.4.1 Refresh Token with an existing `Token`
 The Token can be refreshed by using the existing `Token`
 ```dart
-    // refresh a token by giving the previous aquired token object.
-    token = await azureSignIn.refreshToken(token: token);
+// refresh a token by giving the previous aquired token object.
+token = await azureSignIn.refreshToken(token: token);
 ```
 
 #### 5.4.2 Refresh Token with the Refresh-Token String
 Or if the `Token` is not available anymore the refresh token can be sent as a String.
 ```dart
-    // refresh a token by giving the refresh-token as a string.
-    token = await azureSignIn.refreshToken(refreshToken: refreshTokenString);
+// refresh a token by giving the refresh-token as a string.
+token = await azureSignIn.refreshToken(refreshToken: refreshTokenString);
 ```
 
 ### 5.5 AzureSignIn Variables
@@ -291,8 +294,8 @@ Some class variables can be modified while running, some others are read-only.
 </tr>
 <tr>
 <td><code>azureSignIn.scope</code></td>
-<td>List\<String\></td>
-<td>[<br />&#39;<a href="https://management.core.windows.net//.default">https://management.core.windows.net//.default</a>&#39;,<br />&#39;offline_access&#39;,<br />&#39;openid&#39;,<br />&#39;profile&#39;<br />]</td>
+<td>List&lt;String&gt;</td>
+<td>[<br />&#39;https://management.core.windows.net//.default&#39;,<br />&#39;offline_access&#39;,<br />&#39;openid&#39;,<br />&#39;profile&#39;<br />]</td>
 <td>&check;</td>
 <td>A space-separated list of scopes that you want the user to consent to. For the /authorize leg of the request, this parameter can cover multiple resources. This value allows your app to get consent for multiple web APIs you want to call. Uses the <strong><a href="https://learn.microsoft.com/en-us/cli/azure/">az cli</a></strong> Scopes by default</td>
 </tr>
@@ -334,14 +337,14 @@ Some class variables can be modified while running, some others are read-only.
 <tr>
 <td><code>azureSignIn.signInUri</code></td>
 <td>String</td>
-<td><a href="https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize">https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize</a><br />?client_id=[CLIENT_ID]<br />&amp;response_type=code<br />&amp;redirect_uri=<a href="http://localhost:[PORT">http://localhost:[PORT</a>]<br />&amp;scope=[SCOPE]<br />&amp;response_mode=form_post</td>
+<td>https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize<br />?client_id=[CLIENT_ID]<br />&amp;response_type=code<br />&amp;redirect_uri=http://localhost:[PORT]<br />&amp;scope=[SCOPE]<br />&amp;response_mode=form_post</td>
 <td>&cross;</td>
 <td>Getter for the Microsoft Sign-In URL used to Sign In via Browser. Combines <code>azureSignIn.clientId</code>, <code>azureSignIn.port</code> and <code>azureSignIn.scope</code>, which can not be directly modified.</td>
 </tr>
 <tr>
 <td><code>azureSignIn.signOutUri</code></td>
 <td>String</td>
-<td><a href="https://login.microsoftonline.com/common/oauth2/v2.0/logout">https://login.microsoftonline.com/common/oauth2/v2.0/logout</a></td>
+<td>https://login.microsoftonline.com/common/oauth2/v2.0/logout</td>
 <td>&cross;</td>
 <td>Azure Auth URL used to Sign out from the Browser.</td>
 </tr>
@@ -401,7 +404,7 @@ The Token has multiple fields, some are set in case of success, some in case of 
 <tr>
 <td><code>token.resource</code></td>
 <td>String</td>
-<td><a href="https://management.core.windows.net/">https://management.core.windows.net/</a></td>
+<td>https://management.core.windows.net/</td>
 <td>Resource the token has access to.</td>
 </tr>
 <tr>
@@ -448,14 +451,14 @@ The Token has multiple fields, some are set in case of success, some in case of 
 </tr>
 <tr>
 <td><code>token.errorCodes</code></td>
-<td>List\<dynamic\></td>
+<td>List&lt;dynamic&gt;</td>
 <td>[900144]</td>
 <td>A list of STS-specific error codes that can help in diagnostics.</td>
 </tr>
 <tr>
 <td><code>token.errorUri</code></td>
 <td>String</td>
-<td><a href="https://login.microsoftonline.com/error?code=900144">https://login.microsoftonline.com/error?code=900144</a></td>
+<td>https://login.microsoftonline.com/error?code=900144</td>
 <td>URL to a Microsoft documentation, concerning the emerged error.</td>
 </tr>
 </tbody>
