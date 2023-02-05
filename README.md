@@ -55,6 +55,9 @@
 **dart_azure_ad_sign_in** allows Flutter and Dart apps to obtain authentication tokens for authorized access to protected resources like Azure web APIs.
 The package can simply be used without any configuration to gain the same access you would have with the **[az cli](https://learn.microsoft.com/en-us/cli/azure/)**, or it can be configurated to modify the access.
 
+Check out the Dart and Flutter example app to have a quick view of how this package could be used.
+[dart_azure_ad_sign_in_poc](https://github.com/Pat992/dart_azure_ad_sign_in_poc)
+
 ## 3 Authentication Flow
 ![SignIn Wokrflow](https://raw.githubusercontent.com/Pat992/readme-images/main/dart_azure_ad_sign_in/workflow.png)
 
