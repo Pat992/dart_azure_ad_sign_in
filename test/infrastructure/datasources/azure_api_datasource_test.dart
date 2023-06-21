@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:dart_azure_ad_sign_in/src/domain/entities/token_entity.dart';
 import 'package:dart_azure_ad_sign_in/src/infrastructure/datasources/azure_api_datasource.dart';
+import 'package:dart_azure_ad_sign_in/src/infrastructure/datasources/interfaces/i_azure_api_datasource.dart';
 import 'package:dart_azure_ad_sign_in/src/infrastructure/models/token_model.dart';
 import 'package:test/test.dart';
 
