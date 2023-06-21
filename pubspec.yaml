@@ -1,11 +1,11 @@
 name: dart_azure_ad_sign_in
 description: dart_azure_ad_sign_in allows Flutter and Dart apps to obtain authentication tokens for authorized access to protected resources like Azure web APIs.
-version: 1.0.0+4
+version: 1.0.1
 homepage: https://github.com/Pat992/dart_azure_ad_sign_in
 repository: https://github.com/Pat992/dart_azure_ad_sign_in
 
 environment:
-  sdk: '>=2.18.6 <3.0.0'
+  sdk: '>=2.18.6 <4.0.0'
 
 # dependencies:
 #   path: ^1.8.0

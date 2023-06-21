@@ -1,4 +1,4 @@
-## 1.0.0+4
+## 1.0.1
 - Moved abstract infrastructure classes into interface directory
 - Removed installation guide to instead link to the installation page
 - Added coffee link
