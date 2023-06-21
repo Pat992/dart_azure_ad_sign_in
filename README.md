@@ -7,6 +7,10 @@
 <a href="https://opensource.org/licenses/BSD-3-Clause"><img src="https://img.shields.io/static/v1?label=license&message=BSD 3-Clause&color=blue" alt="License: BSD 3-Clause"></a>
 </div>
 
+You can support me by purchasing a coffee if this package has been helpful to you.
+
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/patrickhettich)
+
 ## Table of content
 - [1 Platform Support](#1-platform-support)
 - [2 Features](#2-features)
@@ -65,19 +69,7 @@ Check out the Dart and Flutter example app to have a quick view of how this pack
 ## 4 Getting started
 
 ### 4.1 Installation
-Add the dependency to the pubspec.yaml for Dart and Flutter
-```yaml
-dependencies:
-  dart_azure_ad_sign_in: ^1.0.0+3
-```
-Or Run this command with Dart:
-```powershell
-dart pub add dart_azure_ad_sign_in
-```
-With Flutter:
-```powershell
-flutter pub add dart_azure_ad_sign_in
-```
+Go to [Installing](https://pub.dev/packages/dart_azure_ad_sign_in/install) to get the newest version.
 
 ### 4.2 Import
 Import the package:
