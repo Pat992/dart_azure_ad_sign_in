@@ -1,3 +1,8 @@
+## 1.0.0+4
+- Moved abstract infrastructure classes into interface directory
+- Removed installation guide to instead link to the installation page
+- Added coffee link
+
 ## 1.0.0+3
 - Added link to demo-apps
 - fixed readme-table links
