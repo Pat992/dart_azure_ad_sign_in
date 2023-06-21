@@ -6,6 +6,8 @@ import 'package:dart_azure_ad_sign_in/src/domain/entities/token_entity.dart';
 import 'package:dart_azure_ad_sign_in/src/domain/repositories/i_sign_in_repository.dart';
 import 'package:dart_azure_ad_sign_in/src/infrastructure/datasources/azure_api_datasource.dart';
 import 'package:dart_azure_ad_sign_in/src/infrastructure/datasources/http_server_datasource.dart';
+import 'package:dart_azure_ad_sign_in/src/infrastructure/datasources/interfaces/i_azure_api_datasource.dart';
+import 'package:dart_azure_ad_sign_in/src/infrastructure/datasources/interfaces/i_http_server_datasource.dart';
 import 'package:dart_azure_ad_sign_in/src/infrastructure/models/token_model.dart';
 import 'package:dart_azure_ad_sign_in/src/infrastructure/repositories/sign_in_repository.dart';
 import 'package:test/test.dart';
