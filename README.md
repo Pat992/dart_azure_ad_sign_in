@@ -2,7 +2,7 @@
 
 <div>
 <a href="https://pub.dev/packages/dart_azure_ad_sign_in"><img src="https://img.shields.io/pub/v/dart_azure_ad_sign_in.svg" alt="Pub"></a>
-<img alt="GitHub Workflow Status (branch)" src="https://shields.mitmproxy.org/github/workflow/status/Pat992/dart_azure_ad_sign_in/Dart%20Tests/main">
+<img alt="GitHub Workflow Status (branch)" src="https://img.shields.io/github/actions/workflow/status/Pat992/dart_azure_ad_sign_in/dart.yml?branch=main">
 <a href="https://github.com/Pat992/dart_azure_ad_sign_in"><img src="https://img.shields.io/github/stars/Pat992/dart_azure_ad_sign_in?style=flat&logo=github&colorB=deeppink&label=stars" alt="Star on Github"></a>
 <a href="https://opensource.org/licenses/BSD-3-Clause"><img src="https://img.shields.io/static/v1?label=license&message=BSD 3-Clause&color=blue" alt="License: BSD 3-Clause"></a>
 </div>
